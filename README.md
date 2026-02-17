@@ -50,19 +50,23 @@
 
 ### Build & Run
 
+Ensure you have **GraalVM** and **Maven** configured.
+
+Clone the repo:
+```
+git clone https://github.com/CommonGrounds/CyclingPower_Mobile.git
+```
+
 To run the application in development mode:
 
 ```bash
 mvn gluonfx:run
-
 ```
 
 To build a native mobile package:
 
 ```bash
-mvn gluonfx:build
-mvn gluonfx:package
-
+mvn clean -Pandroid gluonfx:build gluonfx:package
 ```
 
 ---
