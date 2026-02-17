@@ -12,8 +12,8 @@
 [![JavaFX](https://img.shields.io/badge/JavaFX-21+-blue?logo=java&logoColor=white)](https://openjfx.io)
 [![AtlantaFX](https://img.shields.io/badge/AtlantaFX-2.x-4C8BF5?logoColor=white)](https://github.com/mkpaz/atlantafx)
 [![GitHub License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile)](https://github.com/CommonGrounds/CyclingPower_Mobile)
-[![Stars](https://img.shields.io/github/stars/CommonGrounds/CyclingPower_Mobile?style=social)](https://github.com/CommonGrounds/CyclingPower_Mobile/stargazers)
-![GitHub last commit](https://img.shields.io/github/last-commit/CommonGrounds/CyclingPower_Mobile)
+[![GitHub stars](https://img.shields.io/github/stars/CommonGrounds/CyclingPower_Mobile?style=flat-square&color=gold)](https://github.com/CommonGrounds/CyclingPower_Mobile/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/CommonGrounds/CyclingPower_Mobile?style=flat-square)](https://github.com/CommonGrounds/CyclingPower_Mobile/commits/main)
 
 ## 🚀 Features
 
