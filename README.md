@@ -14,6 +14,7 @@
 [![GitHub License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile)](https://github.com/CommonGrounds/CyclingPower_Mobile)
 [![GitHub stars](https://img.shields.io/github/stars/CommonGrounds/CyclingPower_Mobile?style=flat-square&color=gold)](https://github.com/CommonGrounds/CyclingPower_Mobile/stargazers)
 [![GitHub last commit](https://img.shields.io/github/last-commit/CommonGrounds/CyclingPower_Mobile?style=flat-square)](https://github.com/CommonGrounds/CyclingPower_Mobile/commits/main)
+![GitHub top language](https://img.shields.io/github/languages/top/CommonGrounds/CyclingPower_Mobile?style=flat-square)
 
 ## 🚀 Features
 
