@@ -4,6 +4,8 @@
 [![AtlantaFX](https://img.shields.io/badge/AtlantaFX-2.x-4C8BF5?logoColor=white)](https://github.com/mkpaz/atlantafx)
 [![GitHub License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile)](https://github.com/CommonGrounds/CyclingPower_Mobile)
 [![Stars](https://img.shields.io/github/stars/CommonGrounds/CyclingPower_Mobile?style=social)](https://github.com/CommonGrounds/CyclingPower_Mobile/stargazers)
+[!IMPORTANT]
+**Status:** Project is in active development. Bluetooth sensor integration (Power/Cadence) is currently being implemented.
 
 # Cycle Power
 
