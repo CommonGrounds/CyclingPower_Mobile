@@ -34,7 +34,7 @@ public class gps_service {
         java.net.HttpURLConnection connection = (java.net.HttpURLConnection) url.openConnection();
 
         // 1. Postavi veoma specifičan User-Agent (izbegavaj opšta imena)
-        connection.setRequestProperty("User-Agent", "CyclePower/1.2 (java4now@gmail.com ; https://github.com/CommonGrounds/CyclingPower_Web)");
+        connection.setRequestProperty("User-Agent", "CyclePower/1.2 (java4now@gmail.com ; https://github.com/CommonGrounds/CyclingPower_Mobile)");
         connection.setConnectTimeout(5000);
         connection.setReadTimeout(5000);
 
