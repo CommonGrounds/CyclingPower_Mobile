@@ -1,3 +1,12 @@
+# Cycle Power
+
+**Cycle Power** is a high-performance, open-source cycling computer designed specifically for mobile devices (Android & iOS). Built with JavaFX and compiled natively, it provides real-time data tracking for cyclists who want precision and a modern interface.
+
+
+> [!IMPORTANT]
+> **Status:** Project is in active development.
+> Bluetooth sensor integration (Power/Cadence) is currently being implemented.
+> 
 [![GluonFX](https://img.shields.io/badge/GluonFX-Native-blue.svg)](https://github.com/gluonhq/gluonfx)
 [![Java](https://img.shields.io/badge/Java-17+-orange?logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![JavaFX](https://img.shields.io/badge/JavaFX-21+-blue?logo=java&logoColor=white)](https://openjfx.io)
@@ -5,14 +14,6 @@
 [![GitHub License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile)](https://github.com/CommonGrounds/CyclingPower_Mobile)
 [![Stars](https://img.shields.io/github/stars/CommonGrounds/CyclingPower_Mobile?style=social)](https://github.com/CommonGrounds/CyclingPower_Mobile/stargazers)
 ![GitHub last commit](https://img.shields.io/github/last-commit/CommonGrounds/CyclingPower_Mobile)
-
-> [!IMPORTANT]
-> **Status:** Project is in active development.
-> Bluetooth sensor integration (Power/Cadence) is currently being implemented.
-
-# Cycle Power
-
-**Cycle Power** is a high-performance, open-source cycling computer designed specifically for mobile devices (Android & iOS). Built with JavaFX and compiled natively, it provides real-time data tracking for cyclists who want precision and a modern interface.
 
 ## 🚀 Features
 
