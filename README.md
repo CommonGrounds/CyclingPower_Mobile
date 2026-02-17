@@ -3,7 +3,7 @@
 [![Java](https://img.shields.io/badge/Java-17+-orange?logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![JavaFX](https://img.shields.io/badge/JavaFX-21+-blue?logo=java&logoColor=white)](https://openjfx.io)
 [![AtlantaFX](https://img.shields.io/badge/AtlantaFX-2.x-4C8BF5?logoColor=white)](https://github.com/mkpaz/atlantafx)
-[![License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile?color=success)](LICENSE)
+[![GitHub License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile)](https://github.com/CommonGrounds/CyclingPower_Mobile)
 [![Stars](https://img.shields.io/github/stars/tvojusername/projekt?style=social)](https://github.com/tvojusername/projekt/stargazers)
 
 > **Moderni JavaFX desktop klijent sa AtlantaFX temom** – sve ono što si ikada želeo, a nije postojalo.
