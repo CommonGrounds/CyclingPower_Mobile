@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>dev.java4now</groupId>
+    <artifactId>CyclePower_Mob</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>CyclePower_Mob</name>
+
+    <properties>
+        <!-- To check dependency updates - mvn versions:display-dependency-updates  -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
+        <maven.compiler.version>3.13.0</maven.compiler.version>
+        <!-- <GRAALVM_HOME>/home/ryzen/GRAAL_VM/graalvm-svm-java17-linux-gluon-22.0.0.2-Final</GRAALVM_HOME> -->
+        <!-- <GRAALVM_HOME>/home/ryzen/GRAAL_VM/graalvm-java23-linux-amd64-gluon-23+25.1-dev</GRAALVM_HOME> -->
+        <GRAALVM_HOME>/home/ryzen/GRAAL_VM/graalvm-svm-java17-linux-gluon-22.1.0.1-Final
+        </GRAALVM_HOME>         <!-- poslednja final verzija -->
+        <javafx.version>21.0.8</javafx.version>
+        <connect.version>2.0.1</connect.version>
+        <attach.version>4.0.22</attach.version>                      <!-- 4.0.23 latest -->
+        <!-- Dole je za local repository - ne treba <repository> gore i <pluginRepository> dole -->
+        <attach.custom_display_version>4.0.22-CUSTOM_SNAPSHOT</attach.custom_display_version>
+        <attach.custom_ble_version>4.0.22-CUSTOM_SNAPSHOT</attach.custom_ble_version>
+        <javafx.plugin.version>0.0.8</javafx.plugin.version>
+        <gluonfx.plugin.version>1.0.26</gluonfx.plugin.version>      <!-- 1.0.27 latest -->
+        <lib.atlantafx.version>2.0.1</lib.atlantafx.version>
+        <lib.ikonli.version>12.4.0</lib.ikonli.version>
+        <tilesfx.version>17.1.31</tilesfx.version>
+        <maps.version>2.0.0-ea+6</maps.version>
+        <gluonfx.target>host</gluonfx.target>
+        <!--  <main.class>com.mycompany.atlantafx_gluon/com.mycompany.atlantafx_gluon.App</main.class> -->  <!-- Launcher kao main class zbog mvn package (fat jar) -->
+        <main.class>dev.java4now</main.class>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>${javafx.version}</version>
+            <!-- <classifier>win</classifier>  -->  <!-- ukoliko zelim pakovanje za win na linuxu -->
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-media -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>maps</artifactId>
+            <version>${maps.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
+            <version>1.1.6</version>
+            <classifier>module</classifier>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq</groupId>
+            <artifactId>emoji</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>storage</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>util</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <!-- Dependency za display - u novo kreiranom pom-u za ovaj local repo treba promeniti version na 4.0.21 za lifecycle i util -->
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>display</artifactId>
+            <version>${attach.custom_display_version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>device</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>browser</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>ble</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>connectivity</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>orientation</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>position</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>compass</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>magnetometer</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>settings</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>battery</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>pictures</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gluonhq.attach</groupId>
+            <artifactId>audio</artifactId>
+            <version>${attach.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>${lib.atlantafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign2-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-material2-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-feather-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome5-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-fontawesome-pack -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-fontawesome-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-bytedance-pack -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-bytedance-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-coreui-pack -->
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-coreui-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.cliftonlabs</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <!--
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.20.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.20.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
+            <version>2.0.53</version>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>io.github.wycst</groupId>
+            <artifactId>wast</artifactId>
+            <version>0.0.25.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.16</version>
+        </dependency>
+        <dependency>
+            <groupId>com.garmin</groupId>
+            <artifactId>fit</artifactId>
+            <version>21.158.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- koristi se sa mvn package -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>  <!-- maven-shade-plugin zbog mvn package (fat jar) -->
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>${main.class}.Launcher
+                                    </mainClass>  <!-- dodajemo .Launcher zbog mvn package (fat jar) -->
+                                </transformer>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <!-- koristi se sa mvn javafx:run i mvn gluonfx:run za javac (default-compile)-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <!--
+                    <compilerArgs>
+                        <arg>-add-exports</arg>
+                        <arg>java.management/sun.management=ALL-UNNAMED</arg>
+                    </compilerArgs>
+                    -->
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <!-- koristi se sa mvn javafx:run-->
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>${javafx.plugin.version}</version>
+                <configuration>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <mainClass>${main.class}.App</mainClass> <!-- dodajemo .App zbog javafx:run -->
+                    <options>
+                        <!-- <option>-Djavafx.animation.pulse=30</option> -->
+                        <option>--enable-native-access=javafx.media</option>
+                        <option>--enable-native-access=javafx.graphics</option>
+                        <!-- <option>-Djavafx.media.advanced.force.alsa=true -Dprism.verbose=true</option> -->
+                        <!-- <option>-Djavafx.verbose=true -Djavafx.debug=true</option> -->
+                    </options>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.gluonhq</groupId>
+                <artifactId>gluonfx-maven-plugin</artifactId>
+                <version>${gluonfx.plugin.version}</version>
+                <configuration>
+                    <!-- <javaStaticSdkVersion>24-2</javaStaticSdkVersion>  -->
+                    <!-- <javafxStaticSdkVersion>24-ea+7.1</javafxStaticSdkVersion>  -->
+                    <!-- <javaStaticSdkVersion>11-ea+10</javaStaticSdkVersion>  -->
+                    <!-- <javafxStaticSdkVersion>21-ea+11.2</javafxStaticSdkVersion>  -->
+                    <enableSWRendering>false</enableSWRendering>
+                    <target>${gluonfx.target}</target>
+                    <mainClass>${main.class}.App</mainClass>  <!-- dodajemo .App zbog gluonfx -->
+                    <!--
+                    <nativeImageArgs>
+                        <nativeImageArg>-static</nativeImageArg>
+                        <nativeImageArg>-libc=musl</nativeImageArg>
+                    </nativeImageArgs>
+                    -->
+                    <!-- za native ako je graalvm >=23 onda mora -initialize-at-run-time umesto build -->
+                    <!-- Obavezno za jna lib ( oshi ) -->
+                    <nativeImageArgs>
+                        <nativeImageArg>-H:+AddAllCharsets</nativeImageArg>
+                        <nativeImageArg>--initialize-at-build-time=com.alibaba.fastjson2.JSONFactory$CacheItem.chars
+                        </nativeImageArg>
+                    </nativeImageArgs>
+                    <!-- runtimeArgs je samo za nativeImage za gluonfx:run se koristi isto option pod javafx-maven-plugin kao i za javafx:run -->
+                    <!--
+                    <runtimeArgs>
+                        <runtimeArg>-Djavafx.animation.pulse=30</runtimeArg>
+                        <arg>-Djavafx.media.advanced.force.alsa=true</arg>
+                    </runtimeArgs>
+                    -->
+                    <!-- Od plugina 1.0.24 i graalvm 23+ i javafx 23+ dostupan je buildArgs -->
+                    <!--
+                    <buildArgs>
+                        <buildArg>-static</buildArg>
+                        <buildArg>-libc=musl</buildArg>
+                    </buildArgs>
+                    -->
+                    <attachList>
+                        <list>lifecycle</list>
+                        <list>display</list>
+                        <list>device</list>
+                        <list>browser</list>
+                        <list>connectivity</list>
+                        <list>storage</list>
+                        <list>orientation</list>
+                        <list>position</list>
+                        <list>magnetometer</list>
+                        <list>compass</list>
+                        <list>settings</list>
+                        <list>ble</list>
+                        <list>battery</list>
+                        <list>pictures</list>
+                        <list>audio</list>
+                        <list>util</list>
+                    </attachList>
+                    <graalvmHome>${GRAALVM_HOME}</graalvmHome>
+                    <!--<bundlesList>
+                        <list>com.asgteach.accelerometer</list>
+                    </bundlesList>-->
+                    <reflectionList>
+                        <!-- Obavezno za klase koje se mapiraju - reflektuju ( gde god ima json, connect ) -->
+                        <list>dev.java4now.View.CustomDialog</list>
+                        <list>dev.java4now.model.User</list>
+                        <list>dev.java4now.local_json.City_json</list>
+                        <list>io.github.wycst.wast.json.JSON</list>
+                        <list>javafx.scene.media.AudioClip</list>
+                        <!-- Zbog prism implementacije za javafx.scene.effect -->
+                        <list>com.sun.prism.impl.ManagedResource</list>
+                        <list>com.sun.prism.impl.BaseTexture</list>
+                        <list>com.sun.prism.impl.ps.BaseShaderContext</list>
+                        <list>com.sun.scenario.effect.LinearConvolveCoreEffect</list>
+                        <list>com.sun.scenario.effect.impl.prism.ps.PPSOneSamplerPeer</list>
+                        <list>com.sun.scenario.effect.impl.prism.ps.PPSPhongLighting_DISTANTPeer</list>
+                        <list>com.sun.scenario.effect.PhongLighting</list>
+                        <list>com.sun.scenario.effect.FilterEffect</list>
+                        <list>com.sun.javafx.sg.prism.EffectFilter</list>
+                    </reflectionList>
+                    <verbose>false</verbose>
+                    <!-- Obavezno za resource fajlove tipa .properties i sl. ( i18n , bundles ) -->
+                    <resourcesList>
+                        <list>simplelogger.properties</list>
+                        <list>dev/java4now/[^/]+$</list>
+                        <list>dev/java4now/data/[^/]+$</list>
+                        <list>dev/java4now/data_json/[^/]+$</list>
+                        <list>dev/java4now/sounds/[^/]+$</list>
+                    </resourcesList>
+                    <releaseConfiguration>
+                    </releaseConfiguration>
+                    <!-- Obavezno za resource fajlove tipa .properties i sl. ( i18n ) -->
+                    <!--
+                    <resourcesList>
+                        <list>dev/java4now/[^/]+$</list>
+                    </resourcesList>
+                    -->
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>desktop</id>
+            <properties>
+                <gluonfx.target>host</gluonfx.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>android</id>
+            <properties>
+                <gluonfx.target>android</gluonfx.target>
+            </properties>
+        </profile>
+        <profile>
+            <id>ios</id>
+            <properties>
+                <gluonfx.target>ios</gluonfx.target>
+            </properties>
+        </profile>
+    </profiles>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>gluon-releases</id>
+            <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>Snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

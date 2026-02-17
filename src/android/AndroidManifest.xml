@@ -1,0 +1,53 @@
+<?xml version='1.0'?>
+<manifest xmlns:android='http://schemas.android.com/apk/res/android' android:versionCode='1' android:versionName='1.0'>
+    <supports-screens android:xlargeScreens="true"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>                   <!--dodato-->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />       <!--dodato-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>                 <!--dodato za keep screen on-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  <!--dodato-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>    <!--or/and dodato-->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>               <!--dodato-->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>         <!--dodato-->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />    <!--dodato-->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />      <!--dodato-->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />         <!--dodato-->
+    <uses-feature android:name="android.hardware.sensor.compass" />              <!--dodato-->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />   <!--dodato-->
+    
+    <application android:label='CyclePower_Mob' android:icon="@mipmap/ic_launcher">
+        <activity android:name='com.gluonhq.helloandroid.MainActivity'
+                  android:exported="true"
+                  android:screenOrientation="portrait"
+                  android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+                  android:configChanges="orientation|keyboardHidden">
+             <intent-filter>
+                <category android:name='android.intent.category.LAUNCHER'/>
+                <action android:name='android.intent.action.MAIN'/>
+             </intent-filter>
+        </activity>
+        <activity android:name='com.gluonhq.helloandroid.PermissionRequestActivity'
+                  android:exported="true"/>
+
+        <!--Dodato odavde gps background -->
+        <service android:name="com.gluonhq.attach.android.AndroidPositionBackgroundService"
+                 android:process=":positionBackgroundService" />
+        <activity android:name="com.gluonhq.attach.android.PermissionRequestActivity" />
+        <!--Dodato dovde -->
+
+        <!--Dodato odavde - camera -->
+        <activity android:name="com.gluonhq.attach.android.PermissionRequestActivity" />
+        <provider
+                android:name="androidx.core.content.FileProvider"
+                android:authorities="dev.java4now.fileprovider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_provider_paths" />
+        </provider>
+        <!--Dodato dovde -->
+
+    </application>
+</manifest>
+
