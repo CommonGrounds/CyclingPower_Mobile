@@ -77,13 +77,26 @@
 ### 🔧 Custom Display Module
 This project uses a patched version of Gluon Attach Display (for Wake Lock support). Before building, install the provided artifacts to your local `.m2` repository:
 
+### 1. Install Base & POM
 ```bash
-mvn install:install-file \
-  -Dfile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT.jar \
-  -DpomFile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT.pom \
-  -Dsources=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT-sources.jar \
-  -Dclassifier=android -Dfile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT-android.jar
+ mvn install:install-file -Dfile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT.jar -DpomFile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT.pom
 ```
+### 2. Install Android Classifier (REQUIRED for phone build)
+```bash
+ mvn install:install-file -Dfile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT-android.jar -DpomFile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT.pom -Dclassifier=android
+```
+
+### 3. Install Desktop Classifier (REQUIRED for simulator/run)
+```bash
+ mvn install:install-file -Dfile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT-desktop.jar -DpomFile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT.pom -Dclassifier=desktop
+```
+### 📱 iOS Note & Compatibility
+
+> **Important:** The custom `display-4.0.22-CUSTOM_SNAPSHOT` module currently only includes the Wake Lock implementation for **Android** and **Desktop**.
+> If you are building for **iOS**:
+> 1. In your `pom.xml`, revert the `display` dependency version to the standard `4.0.22`.
+> 2. The app will work, but the "Keep Screen On" feature will not be active (it will use the default iOS behavior).
+ 
 
 ### Build & Run
 
