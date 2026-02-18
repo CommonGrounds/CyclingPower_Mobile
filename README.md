@@ -33,6 +33,15 @@
   <img src=".screenshots/CyclePower_2.jpg" width="350" title="Map View">
 </p>
 
+<p align="center">
+   <img src=".screenshots/web.png" width="700">
+</p>
+
+### 🌐 Web Dashboard
+[Live Demo](https://cyclingpower-web.onrender.com)  
+*(Note: Hosted on a free tier. If the page doesn't load immediately, please wait ~30 seconds for the server to spin up.)*
+
+
 ## 🛠 Tech Stack
 
 * **[Java 17+]():** The core programming language.
