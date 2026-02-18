@@ -16,7 +16,9 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)](https://github.com/CommonGrounds/CyclingPower_Mobile/commits/main)
 ![GitHub top language](https://img.shields.io/github/languages/top/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)
 
-## 🚀 Features
+**[Try the Web Dashboard ➔](https://cyclingpower-web.onrender.com)**.
+
+## 🚴🏼 Features
 
 * **Real-time Metrics:** Track speed (current/average), altitude, slope, and distance.
 * **Advanced Environmental Data:** Stay safe with integrated **Air Quality** monitoring, **UV Index**, and weather conditions (Fog, Temperature).
