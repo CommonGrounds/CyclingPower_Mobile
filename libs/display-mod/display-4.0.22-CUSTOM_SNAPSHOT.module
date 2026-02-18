@@ -1,0 +1,83 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "com.gluonhq.attach",
+    "module": "display",
+    "version": "4.0.22-CUSTOM_SNAPSHOT",
+    "attributes": {
+      "org.gradle.status": "integration"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "8.7"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "files": [
+        {
+          "name": "display-4.0.22-CUSTOM_SNAPSHOT.jar",
+          "url": "display-4.0.22-CUSTOM_SNAPSHOT.jar",
+          "size": 3178,
+          "sha512": "9c2102bf5573292d0d2132cc36c876db3060ea2b2e42ece9e800b16bb5a75c01427cb9d3679aaddb38deb262e1da104a1ea4ac0e3a4d5c5e14fb0750ed9dd8b2",
+          "sha256": "31a5418abe37d7d917a340c2ee0ab1bb1d1aa111b2729f9a687e947d76c86145",
+          "sha1": "db8c9b30fbacd02edee9e44f1727b67bf42012e6",
+          "md5": "90d370c6dc89436321db52e2bde7423e"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "com.gluonhq.attach",
+          "module": "util",
+          "version": {
+            "requires": "4.0.22-CUSTOM_SNAPSHOT"
+          }
+        },
+        {
+          "group": "com.gluonhq.attach",
+          "module": "lifecycle",
+          "version": {
+            "requires": "4.0.22-CUSTOM_SNAPSHOT"
+          }
+        },
+        {
+          "group": "org.openjfx",
+          "module": "javafx-graphics",
+          "version": {
+            "requires": "20.0.2"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "display-4.0.22-CUSTOM_SNAPSHOT.jar",
+          "url": "display-4.0.22-CUSTOM_SNAPSHOT.jar",
+          "size": 3178,
+          "sha512": "9c2102bf5573292d0d2132cc36c876db3060ea2b2e42ece9e800b16bb5a75c01427cb9d3679aaddb38deb262e1da104a1ea4ac0e3a4d5c5e14fb0750ed9dd8b2",
+          "sha256": "31a5418abe37d7d917a340c2ee0ab1bb1d1aa111b2729f9a687e947d76c86145",
+          "sha1": "db8c9b30fbacd02edee9e44f1727b67bf42012e6",
+          "md5": "90d370c6dc89436321db52e2bde7423e"
+        }
+      ]
+    }
+  ]
+}

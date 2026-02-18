@@ -74,6 +74,17 @@
 * GraalVM with `native-image` installed.
 * Configured environment for Android/iOS development (Android SDK/Xcode).
 
+### 🔧 Custom Display Module
+This project uses a patched version of Gluon Attach Display (for Wake Lock support). Before building, install the provided artifacts to your local `.m2` repository:
+
+```bash
+mvn install:install-file \
+  -Dfile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT.jar \
+  -DpomFile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT.pom \
+  -Dsources=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT-sources.jar \
+  -Dclassifier=android -Dfile=libs/display-mod/display-4.0.22-CUSTOM_SNAPSHOT-android.jar
+```
+
 ### Build & Run
 
 Ensure you have **GraalVM** and **Maven** configured.
