@@ -100,4 +100,4 @@ mvn clean -Pandroid gluonfx:build gluonfx:package
 ## 📄 License
 
 
-> This project is licensed under the Apache 2.0 License.See `LICENSE` for more information.Note that it depends on GluonFX, which is licensed under GPLv3 for open-source projects.
+> This project is licensed under the Apache 2.0 License.See `LICENSE` for more information. Note that it depends on GluonFX, which is licensed under GPLv3 for open-source projects.
