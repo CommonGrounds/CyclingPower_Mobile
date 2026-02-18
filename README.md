@@ -7,14 +7,14 @@
 > **Status:** Project is in active development.
 > Bluetooth sensor integration (Power/Cadence) is currently being implemented.
 > 
-[![GluonFX](https://img.shields.io/badge/GluonFX-Native-blue.svg)](https://github.com/gluonhq/gluonfx)
-[![Java](https://img.shields.io/badge/Java-17+-orange?logo=openjdk&logoColor=white)](https://openjdk.org/)
-[![JavaFX](https://img.shields.io/badge/JavaFX-21+-blue?logo=java&logoColor=white)](https://openjfx.io)
-[![AtlantaFX](https://img.shields.io/badge/AtlantaFX-2.x-4C8BF5?logoColor=white)](https://github.com/mkpaz/atlantafx)
-[![GitHub License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile)](https://github.com/CommonGrounds/CyclingPower_Mobile)
-[![GitHub stars](https://img.shields.io/github/stars/CommonGrounds/CyclingPower_Mobile?style=flat-square&color=gold)](https://github.com/CommonGrounds/CyclingPower_Mobile/stargazers)
-[![GitHub last commit](https://img.shields.io/github/last-commit/CommonGrounds/CyclingPower_Mobile?style=flat-square)](https://github.com/CommonGrounds/CyclingPower_Mobile/commits/main)
-![GitHub top language](https://img.shields.io/github/languages/top/CommonGrounds/CyclingPower_Mobile?style=flat-square)
+[![GluonFX](https://img.shields.io/badge/GluonFX-Native-blue.svg?style=for-the-badge)](https://github.com/gluonhq/gluonfx)
+[![Java](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge)](https://openjdk.org/)
+[![JavaFX](https://img.shields.io/badge/JavaFX-21+-blue?style=for-the-badge)](https://openjfx.io)
+[![AtlantaFX](https://img.shields.io/badge/AtlantaFX-2.x-4C8BF5?style=for-the-badge)](https://github.com/mkpaz/atlantafx)
+[![GitHub License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)](https://github.com/CommonGrounds/CyclingPower_Mobile)
+[![GitHub stars](https://img.shields.io/github/stars/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)](https://github.com/CommonGrounds/CyclingPower_Mobile/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)](https://github.com/CommonGrounds/CyclingPower_Mobile/commits/main)
+![GitHub top language](https://img.shields.io/github/languages/top/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)
 
 ## 🚀 Features
 
@@ -39,6 +39,20 @@
 * **[JavaFX 21+]():** For the cross-platform UI layer.
 * **[GluonFX]():** Used to compile the Java bytecode into native ARM code for Android and iOS, ensuring high performance.
 * **[AtlantaFX]():** A modern CSS theme library that gives the app its sleek, "native-feel" dark mode interface.
+
+
+## 🧩 Architecture Highlights
+
+- **View Layer:** Modular UI components built using `GridPane` and `AtlantaFX` cards.
+- **Map Integration:** Leveraging `com.gluonhq.maps` with custom layers for POI (Points of Interest) and GPS tracking.
+- **Sensor Data:** Decoupled data logic using JavaFX `StringProperty` and `IntegerProperty` for seamless UI updates.
+
+
+### 📶 Bluetooth Smart (BLE) Integration
+- **Custom Cadence Logic:** Developed a robust interpreter for CSC (Cycling Speed and Cadence) profile data.
+- **Signal Processing:** Implemented Low-Pass and Exponential Smoothing filters to handle irregular BLE notification intervals and ensure steady RPM display.
+- **Battery Management:** Integrated periodic battery level checks for connected sensors.
+- **Smart Power Estimation:** No power meter? No problem. The app estimates your mechanical power output (Watts) using real-time speed, grade (slope), and wind resistance data.
 
 ---
 
