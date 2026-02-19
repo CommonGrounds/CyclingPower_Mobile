@@ -129,7 +129,12 @@ mvn clean -Pandroid gluonfx:build gluonfx:package
 
 ---
 
-![Demo](.screenshots/Peek.gif)
+<h3 align="center">Mobile App in Action</h3>
+<p align="center">
+  <img src=".screenshots/Peek.gif" width="350">
+</p>
+
+---
 
 ## Thanks To
 
