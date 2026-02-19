@@ -4,9 +4,22 @@
 
 
 > [!IMPORTANT]
-> **Status:** Project is in active development.
-> Bluetooth sensor integration (Power/Cadence) is currently being implemented.
 > 
+> **Development Status & Data Persistence**
+> 
+> This project is currently in an **active alpha development stage**. Please be aware of the following before using the application:
+> 
+>* **Experimental Use Only:** This app is intended for development and demonstration purposes. It is **not** recommended for critical mission use or as your primary cycling data storage.
+> 
+>* **Data Volatility:** The backend is currently hosted on a **Free Tier (Render)**. Since free instances do not have persistent disk storage, data (JSON logs and images) is periodically synced to GitHub.
+> 
+>* **Risk of Data Loss:** Due to the limitations of the free hosting environment, **your ride data may be deleted or overwritten** at any time without notice.
+> 
+>* **No Stability Guarantees:** Server downtime or API rate limits may occur, affecting the ability to upload or view rides.
+> 
+
+---
+
 [![GluonFX](https://img.shields.io/badge/GluonFX-Native-blue.svg?style=for-the-badge)](https://github.com/gluonhq/gluonfx)
 [![Java](https://img.shields.io/badge/Java-17+-orange?style=for-the-badge)](https://openjdk.org/)
 [![JavaFX](https://img.shields.io/badge/JavaFX-21+-blue?style=for-the-badge)](https://openjfx.io)
