@@ -11,7 +11,7 @@
 > 
 >* **Experimental Use Only:** This app is intended for development and demonstration purposes. It is **not** recommended for critical mission use or as your primary cycling data storage.
 > 
->* **Data Volatility:** The backend is currently hosted on a **Free Tier (Render)**. Since free instances do not have persistent disk storage, data (JSON logs and images) is periodically synced to GitHub.
+>* **Data Volatility:** The backend is currently hosted on a **Free Tier (Render)**. Since free instances do not have persistent disk storage, data (JSON logs and images) is periodically synced to GitHub ( GitDB ).
 > 
 >* **Risk of Data Loss:** Due to the limitations of the free hosting environment, **your ride data may be deleted or overwritten** at any time without notice.
 > 
