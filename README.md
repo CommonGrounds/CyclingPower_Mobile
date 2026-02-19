@@ -39,6 +39,7 @@
    <img src=".screenshots/web.png" width="700">
 </p>
 
+
 ### 🌐 Web Dashboard
 [Live Demo](https://cyclingpower-web.onrender.com)  
 *(Note: Hosted on a free tier. If the page doesn't load immediately, please wait ~30 seconds for the server to spin up.)*
@@ -125,3 +126,13 @@ mvn clean -Pandroid gluonfx:build gluonfx:package
 
 
 > This project is licensed under the Apache 2.0 License.See `LICENSE` for more information. Note that it depends on GluonFX, which is licensed under GPLv3 for open-source projects.
+
+---
+
+![Demo](.screenshots/Peek.gif)
+
+## Thanks To
+
+| Company              | For..                              |
+|----------------------|------------------------------------|
+| <a href="http://gluonhq.com"><img width="200" src="http://fxexperience.com/wp-content/uploads/2016/08/Gluon_combined_logo_vertical.png"></a>| Excellent development environment. |
