@@ -7,7 +7,6 @@ import io.github.wycst.wast.json.JSON;
 //import com.fasterxml.jackson.core.JsonProcessingException;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.java4now.http.SaveUser;
-import dev.java4now.local_json.City_json;
 import dev.java4now.model.User;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -21,7 +20,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
@@ -36,7 +34,8 @@ import static dev.java4now.http.SendToServer.httpClient;
 public class CustomDialog {
     private final String message;
     private final EventHandler<ActionEvent> onResult;
-    private VBox dialogBox;
+    private BorderPane dialogBox;
+    private VBox dialog_inner_Box;
     private Pane overlay;
     Label messageLabel;
 
@@ -55,16 +54,31 @@ public class CustomDialog {
 
         // Dialog content
         messageLabel = new Label(message);
+        var warning = new Label("Alpha version - Data may not be saved");
+        warning.setStyle("-fx-font-weight: bold; -fx-text-fill: red;");
         Label lbl0 = new Label("Enter Name");
         TextField name = new TextField();
         Button okButton = new Button("OK");
 //        okButton.getStyleClass().add("button");
 
-        dialogBox = new VBox(10, messageLabel, lbl0, name, okButton);
-        dialogBox.setAlignment(Pos.CENTER);
-        dialogBox.setPadding(new Insets(20));
+        dialog_inner_Box = new VBox(10, messageLabel,lbl0, name);
+        dialog_inner_Box.setAlignment(Pos.CENTER);
+        dialog_inner_Box.setPadding(new Insets(20));
 //        dialogBox.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;");
 //        dialogBox.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
+
+        // Center the dialog
+        dialogBox = new BorderPane(){
+            @Override
+            protected void layoutChildren() {
+                super.layoutChildren();
+                warning.setLayoutX(getWidth()/2 - warning.getWidth()/2);
+                okButton.setLayoutX(getWidth()/2 - okButton.getWidth()/2);
+            }
+        };
+        dialogBox.setTop(warning);
+        dialogBox.setCenter(dialog_inner_Box);
+        dialogBox.setBottom(okButton);
         if (theme.isDarkMode()) {
             dialogBox.setBackground(new Background(new BackgroundFill(Color.rgb(20, 20, 20, 1), null, null)));
         } else {
@@ -75,8 +89,8 @@ public class CustomDialog {
         dialogBox.setMaxWidth(Math.max(300, parent.getWidth() / 6));
         dialogBox.setMaxHeight(parent.getHeight() / 3);
 //        dialogBox.setMaxHeight(Region.USE_COMPUTED_SIZE);
+        dialogBox.setPadding(new Insets(0, 0, 10, 0));
 
-        // Center the dialog
         StackPane dialogPane = new StackPane(overlay, dialogBox);
         dialogPane.setAlignment(Pos.CENTER);
 

@@ -179,6 +179,9 @@ public class App extends Application {
                 String style_success = Styles.SUCCESS;
                 start_btn.getStyleClass().removeAll(style_success); // uklanjamo sve sucess style ako ga ima
                 start_btn.getStyleClass().add(Styles.DANGER);
+                if (user_name.get() != null) {
+                    System_Info.show_notification("Alpha version - Data may not be persistent", Styles.DANGER);  // notifikacija na main screen
+                }
             }
         });
 
@@ -307,7 +310,7 @@ public class App extends Application {
                 center_app_top_bar.setPrefWidth(getWidth() / 3);
                 right_app_top_bar.setPrefWidth(getWidth() / 3);
                 app_top_bar.setPrefWidth(getWidth());
-                searchDialog.setMaxHeight(app_top_bar.getHeight() + 2); // bice visina modal pane-a koji sadrzi search dialog
+                searchDialog.setMaxHeight(app_top_bar.getHeight() + 2); // important bice visina modal pane-a koji sadrzi search dialog
                 leftDialog.setMaxWidth(getWidth() / 2);
 //                LOGGER.debug(app_top_bar.getHeight());
                 System_Info.display_width.set(getWidth());

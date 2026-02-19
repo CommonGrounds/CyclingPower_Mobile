@@ -728,6 +728,8 @@ public class System_Info {
             if(service.retrieve("BikeWeight") != null){
                 b_weight.set(Integer.parseInt(service.retrieve("BikeWeight")));
                 r_weight.set(Integer.parseInt(service.retrieve("RiderWeight")));
+            }
+            if (service.retrieve("User") != null){
                 user_name.set(service.retrieve("User"));
             }
 //            service.remove("key");
