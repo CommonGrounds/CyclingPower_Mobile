@@ -26,6 +26,7 @@
 [![AtlantaFX](https://img.shields.io/badge/AtlantaFX-2.x-4C8BF5?style=for-the-badge)](https://github.com/mkpaz/atlantafx)
 [![GitHub License](https://img.shields.io/github/license/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)](https://github.com/CommonGrounds/CyclingPower_Mobile)
 [![GitHub stars](https://img.shields.io/github/stars/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)](https://github.com/CommonGrounds/CyclingPower_Mobile/stargazers)
+[![GitHub Release](https://img.shields.io/github/v/release/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)](https://github.com/CommonGrounds/CyclingPower_Mobile/releases)
 [![GitHub last commit](https://img.shields.io/github/last-commit/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)](https://github.com/CommonGrounds/CyclingPower_Mobile/commits/main)
 ![GitHub top language](https://img.shields.io/github/languages/top/CommonGrounds/CyclingPower_Mobile?style=for-the-badge)
 
