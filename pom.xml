@@ -204,6 +204,11 @@
             <version>${lib.ikonli.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-carbonicons-pack</artifactId>
+            <version>${lib.ikonli.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.cliftonlabs</groupId>
             <artifactId>json-simple</artifactId>
             <version>4.0.1</version>
@@ -250,6 +255,12 @@
             <groupId>com.garmin</groupId>
             <artifactId>fit</artifactId>
             <version>21.158.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.2-1</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

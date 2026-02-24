@@ -715,7 +715,7 @@ public class App extends Application {
         app_top_bar.setAlignment(Pos.CENTER);
         app_top_bar.setPadding(new Insets(0, 0, 10, 0));   // 10 px prazan prostor ispod back_btn dugmeta
 
-        var box = new VBox(HelpPage.getImage(), HelpPage.show_Help());
+        var box = new VBox(HelpPage.show_Help());
         var gridScroll = new ScrollPane(box);                               // IMPORTANT - Use ScrollPane za nov unutrasnji VBox ispod button
         gridScroll.setFitToWidth(true);
 

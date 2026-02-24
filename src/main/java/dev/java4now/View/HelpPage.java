@@ -5,8 +5,10 @@ import atlantafx.base.util.BBCodeParser;
 import dev.java4now.App;
 import dev.java4now.Browser;
 import dev.java4now.System_Info;
+import dev.java4now.util.CustomBBCodeHandler;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,7 +20,7 @@ import java.util.Objects;
 public class HelpPage {
 
     public static ImageView wind_image;
-    private static final int padding = 10;
+    private static final int padding = 20;
 
     static {
         wind_image = new ImageView(new Image(
@@ -26,60 +28,91 @@ public class HelpPage {
     }
 
 
-
     //----------------------------------
-    public static ImageView getImage(){
-        wind_image.setFitWidth(System_Info.display_width.get() - padding*2);wind_image.setPreserveRatio(true);
+    public static ImageView getImage() {
+        wind_image.setFitWidth(System_Info.display_width.get() - padding * 2);
+        wind_image.setPreserveRatio(true);
 
         return wind_image;
     }
 
 
-
     //----------------------------------
-    public static VBox show_Help(){
+    public static VBox show_Help() {
 
         var root = new VBox();
-        root.setPadding(new Insets(0, padding, 0, padding)); // IMPORTANT - stavljamo padding pre dodavanja child vbox-a da scroll ne bi setao horizontalno
 
+        var header = """
+                [center][heading=1]CyclePower[/heading][/center]
+                [i]Open-source cycling computer powered by [url="https://gluonhq.com/"]Gluon[/url]. Licensed under GPL V3.[/i]
+                """;
         var article = """
-        [left][heading=1]CyclePower[/heading][/left]
-        [ul]
-        [li]This is Cycling computer application developed with open source [url="https://gluonhq.com/"]gluon software[/url] and it is under GPL V3 Licence.
-        Source code of is on this [url="https://github.com/CommonGrounds"]Github link[/url].[/li]\
-        [left][heading=3]Wind card[/heading][/left]\
-        [li]Is showing wind direction ( red arrow ) in relation on heading direction - bike front is Up.
-        N is north , W is west, E is east and S is south ( NW is north-west ) orientation is in relation to magnetic north,
-        so keep your phone away of magnetic objects.[/li]\
-        [left][heading=3]Keep Screen Always On[/heading][/left]\
-        [li]make phone stays with screen on while measuring ride activity
-        better to choose dark theme because light theme drain battery faster.[/li]\
-        [left][heading=3]Bike settings[/heading][/left]\
-        [li]In Bike settings screen - is important to enter exact bike and rider weight so the power measurement will be correct[/li]\
-        [/ul]
-       """;
+                [hr/]
+                
+                [heading=3][color=skyblue][icon=wind-gusts size=24/][/color] Wind Card[/heading]
+                
+                The red arrow shows wind direction relative to your bike (Top = Front).
+                [ul]
+                [li]Orientation is based on magnetic north.[/li]
+                [li]Keep your device away from magnetic mounts for accuracy.[/li]
+                [/ul]
+                
+                [heading=3][color=orange][icon=photo size=24/][/color] Display Settings[/heading]
+                [ul]
+                [li][b]Wake Lock:[/b] Keeps the screen on during your ride.[/li]
+                [li][b]Dark Mode:[/b] Recommended to preserve battery life.[/li]
+                [/ul]
+                
+                [heading=3][color=yellow][icon=balance-scale size=24/][/color] Bike Physics[/heading]
+                
+                Accuracy of power measurement depends on precise input of both [b]bike and rider weight[/b] in the settings menu.
+                
+                [center][icon=github/] [url="https://github.com/CommonGrounds"]Source Code[/url][/center]
+                """;
 
-        root.getChildren().add(BBCodeParser.createLayout(article));
+        var image = getImage();
+// Dodajemo stil za moderniji izgled
+        image.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 5);");
+
+// Kreiramo poseban VBox za sliku sa marginama
+        VBox imageContainer = new VBox(image);
+        imageContainer.setPadding(new Insets(10, 0, 20, 0));
+        imageContainer.setAlignment(Pos.CENTER);
+
+        VBox container = new VBox(10);
+        CustomBBCodeHandler<VBox> handler = new CustomBBCodeHandler<>(container);
+        BBCodeParser parser = new BBCodeParser(article, handler);
+        parser.parse();
+
+        root.setPadding(new Insets(0, padding, 0, padding)); // IMPORTANT - stavljamo padding pre dodavanja child vbox-a da scroll ne bi setao horizontalno
+        root.getChildren().addAll(BBCodeParser.createLayout(header),imageContainer, container );
+
+        addHandlers(root);
+
+        return root;
+    }
+
+
+    //---------------------------------------------------------------
+    private static void addHandlers(VBox root) {
 
         root.addEventFilter(ActionEvent.ACTION, e -> {
             if (e.getTarget() instanceof Hyperlink link) {
 //                BrowseEvent.fire((String) link.getUserData());
                 System.out.println(link.getUserData().toString());
-                if(System_Info.net_exist.get()){
+                if (System_Info.net_exist.get()) {
                     Browser.launch(link.getUserData().toString());
-                }else{
-                    if(System_Info.platform.equals("Desktop")){      // Zato sto na destop-u attach ConnectivityService uvek daje false
+                } else {
+                    if (System_Info.platform.equals("Desktop")) {      // Zato sto na destop-u attach ConnectivityService uvek daje false
                         Browser.launch(link.getUserData().toString());
-                    }else{
+                    } else {
                         App.modalPane.hide(true);  // 1. mora modal hide
-                        System_Info.show_notification("Net is not available",Styles.DANGER); // pa onda notifikacija na main screen
+                        System_Info.show_notification("Net is not available", Styles.DANGER); // pa onda notifikacija na main screen
                         System.out.println("Net is not available");
                     }
                 }
             }
             e.consume();
         });
-
-        return root;
     }
 }
