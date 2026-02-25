@@ -633,7 +633,7 @@ public class App extends Application {
         BorderPane.setAlignment(app_top_bar, javafx.geometry.Pos.TOP_CENTER);
         root.setCenter(vBox);
         BorderPane.setAlignment(vBox, Pos.CENTER);
-        root.setPadding(new Insets(10, 0, 0, 0));
+//        root.setPadding(new Insets(10, 0, 0, 0)); // spusta ceo BorderPane dole
 
         if (theme.isDarkMode()) {
             root.setBackground(new Background(new BackgroundFill(Color.rgb(20, 20, 20, 1), null, null)));
@@ -713,7 +713,7 @@ public class App extends Application {
         }
         app_top_bar.setPrefWidth(System_Info.display_width.get());
         app_top_bar.setAlignment(Pos.CENTER);
-        app_top_bar.setPadding(new Insets(0, 0, 10, 0));   // 10 px prazan prostor ispod back_btn dugmeta
+        app_top_bar.setPadding(new Insets(5, 0, 5, 0));   // 5px prazan prostor ispod i iznad back_btn dugmeta ( povecava visinu HBox-a )
 
         var box = new VBox(HelpPage.show_Help());
         var gridScroll = new ScrollPane(box);                               // IMPORTANT - Use ScrollPane za nov unutrasnji VBox ispod button
@@ -723,7 +723,7 @@ public class App extends Application {
         BorderPane.setAlignment(app_top_bar, Pos.TOP_CENTER);
         root.setCenter(gridScroll);
         BorderPane.setAlignment(gridScroll, Pos.CENTER);
-        root.setPadding(new Insets(10, 0, 0, 0));           // odaljavanje dugmeta tj. celog BorderPane-a od vrha
+//        root.setPadding(new Insets(10, 0, 0, 0));           // odaljavanje dugmeta tj. celog BorderPane-a od vrha
 
         if (theme.isDarkMode()) {
             root.setBackground(new Background(new BackgroundFill(Color.rgb(20, 20, 20, 1), null, null)));

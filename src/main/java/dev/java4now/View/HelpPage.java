@@ -45,11 +45,10 @@ public class HelpPage {
         var header = """
                 [center][heading=1]CyclePower[/heading][/center]
                 [i]Open-source cycling computer powered by [url="https://gluonhq.com/"]Gluon[/url]. Licensed under GPL V3.[/i]
+                [hr/]
+                [heading=3][color=skyblue][icon=wind-gusts size=24/][/color] Wind Card[/heading]
                 """;
         var article = """
-                [hr/]
-                
-                [heading=3][color=skyblue][icon=wind-gusts size=24/][/color] Wind Card[/heading]
                 
                 The red arrow shows wind direction relative to your bike (Top = Front).
                 [ul]
@@ -79,13 +78,18 @@ public class HelpPage {
         imageContainer.setPadding(new Insets(10, 0, 20, 0));
         imageContainer.setAlignment(Pos.CENTER);
 
+        VBox container_header = new VBox(10);
+        CustomBBCodeHandler<VBox> handler_0 = new CustomBBCodeHandler<>(container_header);
+        BBCodeParser parser_0 = new BBCodeParser(header, handler_0);
+        parser_0.parse();
+
         VBox container = new VBox(10);
         CustomBBCodeHandler<VBox> handler = new CustomBBCodeHandler<>(container);
         BBCodeParser parser = new BBCodeParser(article, handler);
         parser.parse();
 
         root.setPadding(new Insets(0, padding, 0, padding)); // IMPORTANT - stavljamo padding pre dodavanja child vbox-a da scroll ne bi setao horizontalno
-        root.getChildren().addAll(BBCodeParser.createLayout(header),imageContainer, container );
+        root.getChildren().addAll(container_header/*BBCodeParser.createLayout(header)*/,imageContainer, container );
 
         addHandlers(root);
 
@@ -112,6 +116,7 @@ public class HelpPage {
                     }
                 }
             }
+//            System.out.println("Action event: " + e.getTarget());
             e.consume();
         });
     }
