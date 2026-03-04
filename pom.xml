@@ -417,6 +417,7 @@
                         <list>dev/java4now/data/[^/]+$</list>
                         <list>dev/java4now/data_json/[^/]+$</list>
                         <list>dev/java4now/sounds/[^/]+$</list>
+                        <list>dev/java4now/fonts/[^/]+$</list>
                     </resourcesList>
                     <releaseConfiguration>
                     </releaseConfiguration>

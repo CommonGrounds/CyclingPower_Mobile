@@ -13,6 +13,7 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 import java.util.Objects;
 
@@ -66,8 +67,8 @@ public class HelpPage {
                 
                 Accuracy of power measurement depends on precise input of both [b]bike and rider weight[/b] in the settings menu.
                 
-                [center][icon=github/] [url="https://github.com/CommonGrounds"]Source Code[/url][/center]
-                """;
+                [center][icon=github size=%f/] [url="https://github.com/CommonGrounds"]Source Code[/url][/center]
+                """.formatted(Font.getDefault().getSize() - 3);
 
         var image = getImage();
 // Dodajemo stil za moderniji izgled
@@ -90,6 +91,8 @@ public class HelpPage {
 
         root.setPadding(new Insets(0, padding, 0, padding)); // IMPORTANT - stavljamo padding pre dodavanja child vbox-a da scroll ne bi setao horizontalno
         root.getChildren().addAll(container_header/*BBCodeParser.createLayout(header)*/,imageContainer, container );
+
+        root.setStyle("-fx-font-family: 'Roboto'; -fx-font-size: " + ( Font.getDefault().getSize() - 4 ) + "pt;"); // important - da bi imali sve bold, italic etc opcije
 
         addHandlers(root);
 

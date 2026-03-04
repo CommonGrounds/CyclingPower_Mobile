@@ -25,6 +25,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
@@ -101,6 +102,7 @@ public class App extends Application {
 //        System_Info.save_user_name("test05");     // IMPORTANT - save user name to settings file - DEVELOPER MODE - instalacija na uredjaj
 //        user_name.set("test05");                  // IMPORTANT - save user name to settings file - DEVELOPER MODE - samo za emulator - probati na mobilni
 
+        loadCustomFonts();
         try {
             System_Info.cityService = new CityService_json(streams);
         } catch (IOException e) {
@@ -761,6 +763,40 @@ public class App extends Application {
         return alert;
     }
 
+
+    /**
+     * Loads custom fonts into the application by utilizing the Font.loadFont method
+     * and resources embedded within the application package. Currently, it attempts
+     * to load three specific font variants: regular, bold, and italic.
+     *
+     * In case any font resource is missing or cannot be loaded, an exception will be
+     * logged and the stack trace will be printed to help with debugging.
+     *
+     * The method logs a success message upon successfully loading all fonts.
+     * If an error occurs during font loading, it logs the error details.
+     *
+     * This method handles the following fonts:
+     * - Roboto-Regular.ttf
+     * - Roboto-Bold.ttf
+     * - Roboto-Italic.ttf
+     */
+    //---------------------------------------------------
+    private void loadCustomFonts() {
+        try {
+            // Učitaj regular font - koristi getResourceAsStream za Android/Gluon
+    //        Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-city.ndjson"));
+            Font.loadFont(Objects.requireNonNull(App.class.getResourceAsStream("fonts/Roboto-Regular.ttf")), -1);
+            // Učitaj bold font
+            Font.loadFont(Objects.requireNonNull(App.class.getResourceAsStream("fonts/Roboto-Bold.ttf")), -1);
+            // Učitaj italic font
+            Font.loadFont(Objects.requireNonNull(App.class.getResourceAsStream("fonts/Roboto-Italic.ttf")), -1);
+
+            LOGGER.info("Fontovi uspešno učitani");
+        } catch (Exception e) {
+            LOGGER.error("Greška pri učitavanju fontova: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 
     //-------------------------------------------------
     public static void main(String[] args) {
