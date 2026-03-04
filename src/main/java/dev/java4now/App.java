@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -103,6 +104,10 @@ public class App extends Application {
 //        user_name.set("test05");                  // IMPORTANT - save user name to settings file - DEVELOPER MODE - samo za emulator - probati na mobilni
 
         loadCustomFonts();
+        if(LOGGER.isDebugEnabled()) {
+            debugFonts();
+        }
+
         try {
             System_Info.cityService = new CityService_json(streams);
         } catch (IOException e) {
@@ -797,6 +802,33 @@ public class App extends Application {
             e.printStackTrace();
         }
     }
+
+
+    //---------------------------------------------------
+    private void debugFonts() {
+        LOGGER.info("=== FONT DEBUG INFO ===");
+        LOGGER.info("Default font: " + Font.getDefault());
+        LOGGER.info("Default font family: " + Font.getDefault().getFamily());
+        LOGGER.info("Default font name: " + Font.getDefault().getName());
+
+        // Ispiši sve dostupne fontove
+        List<String> fontFamilies = Font.getFamilies();
+        LOGGER.info("Dostupne font familije (prvih 10):");
+        fontFamilies.stream().limit(10).forEach(f -> LOGGER.info("  - " + f));
+
+        // Proveri da li je Roboto dostupan
+        boolean robotoAvailable = Font.getFontNames("Roboto") != null && !Font.getFontNames("Roboto").isEmpty();
+        LOGGER.info("Roboto dostupan: " + robotoAvailable);
+
+        if (robotoAvailable) {
+            LOGGER.info("Roboto varijante:");
+            Font.getFontNames("Roboto").forEach(name -> LOGGER.info("  - " + name));
+        }
+
+        LOGGER.info("========================");
+    }
+
+
 
     //-------------------------------------------------
     public static void main(String[] args) {
