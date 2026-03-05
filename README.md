@@ -84,6 +84,11 @@
 
 ## 🏗 Getting Started
 
+Clone the repo:
+```
+git clone https://github.com/CommonGrounds/CyclingPower_Mobile.git
+```
+
 ### Prerequisites
 
 * GraalVM with `native-image` installed.
@@ -116,11 +121,6 @@ This project uses a patched version of Gluon Attach Display (for Wake Lock suppo
 ### Build & Run
 
 Ensure you have **GraalVM** and **Maven** configured.
-
-Clone the repo:
-```
-git clone https://github.com/CommonGrounds/CyclingPower_Mobile.git
-```
 
 To run the application in development mode:
 
