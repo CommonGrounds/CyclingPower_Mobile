@@ -587,18 +587,31 @@ public class System_Info {
 
 
 
-
     //----------------------------------------------------
-        public static double calculateCalories(double powerWatts, double durationSeconds) {
-            // Convert power (watts) to energy (joules)
-            double energyJoules = powerWatts * durationSeconds;
+    /*
+    public static double calculateCalories(double powerWatts, double durationSeconds) {
+        // 1. Izračunaj mehaničku energiju u džulima
+        double energyJoules = powerWatts * durationSeconds;
 
-            // Convert energy (joules) to calories (kcal)
-            double caloriesBurned = energyJoules / 4184;
+        // 2. Procenjena metabolička efikasnost čoveka (prosek je oko 24% ili 0.24)
+        double efficiency = 0.24;
 
-            return caloriesBurned;
-        }
+        // 3. Ukupna potrošena energija tela u džulima
+        double totalBodyEnergyJoules = energyJoules / efficiency;
 
+        // 4. Konverzija u kilokalorije (1 kcal = 4184 J)
+        double caloriesBurned = totalBodyEnergyJoules / 4184;
+
+        return caloriesBurned;
+    }
+*/
+
+    //---------------- Uprostena potrosnja kalorija --------------
+    public static double calculateCalories(double powerWatts, double durationSeconds) {
+        // Snaga (W) * vreme (s) = džuli (J).
+        // Podeljeno sa 1000 daje približne kcal zbog efikasnosti tela.
+        return (powerWatts * durationSeconds) / 1000.0;
+    }
 
 
     //---------------------------------------------------
