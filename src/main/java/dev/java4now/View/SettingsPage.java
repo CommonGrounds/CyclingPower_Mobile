@@ -27,6 +27,7 @@ import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.coreui.CoreUiBrands;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.javafx.Icon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignB;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignT;
 
 import javafx.css.StyleableIntegerProperty;
@@ -150,7 +151,7 @@ public class SettingsPage {
 //        icon = new MyFontIcon(MaterialDesignT.TOOLS);
 //        icon.iconSizeProperty().bind(System_Info.display_height.divide(5));
 //        var icon = new FontIcon(MaterialDesignT.TOOLS);
-        var icon = new FontIcon(CoreUiBrands.GNU);
+        var icon = new FontIcon(MaterialDesignB.BIKE_FAST);  // CoreUiBrands.GNU
         icon.getStyleClass().add("batt_icon_2");
 
         box.getChildren().addAll( textFlowPane,lbl_theme , lbl0 , sp0, lbl1 , sp1 , screen_chk , icon);
