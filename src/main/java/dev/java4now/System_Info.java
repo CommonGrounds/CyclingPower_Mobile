@@ -81,7 +81,7 @@ public class System_Info {
     public static String platform = "Unknown";
     public  static Notification msg;
     public static double lat,lon;
-    public static final StringProperty alt = new SimpleStringProperty(Double.toString(Double.NaN));
+    public static final StringProperty alt = new SimpleStringProperty("0.0");  // Double.toString(Double.NaN)
     static long old_time = 0;
     public static CityService_json cityService;
     private static double previous_alt = 0.0;

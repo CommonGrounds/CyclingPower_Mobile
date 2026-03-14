@@ -23,6 +23,14 @@
    -fx-font-size: 1.5em;
 }
 
+.t5 {
+   -fx-font-size: .7em;
+}
+
+.t_normal {
+   -fx-font-size: 1em;
+}
+
 .theme_change_btn.button >.ikonli-font-icon {
     -fx-icon-size:  28px;                       /* velicina font ikone */
  }
@@ -115,4 +123,8 @@
 
  .separator {
    -color-separator: -color-success-muted;
+ }
+
+ .text_lime {
+     -fx-fill: #32CD32;
  }

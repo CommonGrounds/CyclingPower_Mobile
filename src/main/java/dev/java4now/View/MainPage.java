@@ -3,7 +3,6 @@ package dev.java4now.View;
 import atlantafx.base.controls.Card;
 import atlantafx.base.theme.Styles;
 import com.github.cliftonlabs.json_simple.JsonException;
-import dev.java4now.App;
 import dev.java4now.System_Info;
 import dev.java4now.util.Forecast_current;
 import javafx.application.Platform;
@@ -17,8 +16,6 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -34,7 +31,6 @@ import org.kordamp.ikonli.materialdesign2.MaterialDesignB;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,8 +56,20 @@ public class MainPage {
     static GridPane root;
     static Arc wind_arc;
     static Rotate rotate;
+    static Text north;
+    static Rotate north_rotate;
+    static Text south;
+    static Rotate south_rotate;
+    static Text east;
+    static Rotate east_rotate;
+    static Text west;
+    static Rotate west_rotate;
 
     public static final DoubleProperty wind_rotation = new SimpleDoubleProperty(0.0);
+    public static final DoubleProperty north_angle = new SimpleDoubleProperty(0.0);
+    public static final DoubleProperty south_angle = new SimpleDoubleProperty(180.0);
+    public static final DoubleProperty east_angle = new SimpleDoubleProperty(90.0);
+    public static final DoubleProperty west_angle = new SimpleDoubleProperty(270.0);
     public static final StringProperty total_distance = new SimpleStringProperty("0.0");
 
 
@@ -81,13 +89,14 @@ public class MainPage {
 
         root.addRow(0, card1);
         root.addRow(1, card2, card3);
-        root.addRow(2, card4, card5);
+        root.addRow(2, card4, card5); // bez card 5 ako zelim da card 3 zauzima 2 reda
         root.addRow(3, card6, card7);
         root.addRow(4, card8);
 //        root.addRow(2, Submit);
 //        root.setHgap(25);
 //        root.setVgap(10);
         GridPane.setConstraints(card1, 0, 0, 2, 1, HPos.CENTER, VPos.BASELINE);
+//         GridPane.setConstraints(card3, 1, 1, 1, 2, HPos.CENTER, VPos.BASELINE); // ako zelimo da card3 bude u redu 1 a da zauzima 2. kolumnu i 2 reda
         GridPane.setConstraints(card8, 0, 4, 2, 1, HPos.CENTER, VPos.BASELINE);
 //        root.getRowConstraints().get(0).maxHeightProperty().get();
 //        root.setBackground(Background.fill(Color.GREEN));
@@ -201,45 +210,110 @@ public class MainPage {
         card3 = new Card();
         double CIRCLE_SCALE = 0.75;           // Smanjujem Pane tj. circle
         Text title = new Text("Wind");
+        Text speed = new Text("speed");
+        speed.getStyleClass().add("t5");
         Text wind_spd = new Text();
-        wind_spd.textProperty().bind(Forecast_current.wind_speed_text);
-        Text heading_dir = new Text();
-        heading_dir.textProperty().bind(System_Info.heading_dir_short);
+        wind_spd.getStyleClass().add("t3");
+        wind_spd.textProperty().bind(new StringBinding() {
+            {
+                bind(Forecast_current.wind_speed_text);
+            }
+            @Override
+            protected String computeValue() { // computeValue() se poziva svaki put kada se bind promenljiva promeni
+                if (Forecast_current.wind_speed.doubleValue() < 10.0) {
+                    wind_spd.setFill(Color.LIMEGREEN);
+                    return Forecast_current.wind_speed_text.get();
+                } else if ( Forecast_current.wind_speed.doubleValue() < 20.0){
+                    wind_spd.setFill(Color.web("#00BCD4"));
+                    return Forecast_current.wind_speed_text.get();
+                } else if ( Forecast_current.wind_speed.doubleValue() < 30.0){
+                    wind_spd.setFill(Color.ORANGE);
+                    return Forecast_current.wind_speed_text.get();
+                } else if ( Forecast_current.wind_speed.doubleValue() < 45.0){
+                    wind_spd.setFill(Color.RED);
+                    return Forecast_current.wind_speed_text.get();
+                }else {
+                    wind_spd.setFill(Color.web("#9e28a3"));
+                    return Forecast_current.wind_speed_text.get();
+                }
+            }
+        });
+        Text km_h = new Text("km/h");
+        km_h.getStyleClass().add("t5");
+        Text direction = new Text("direction");
+        direction.getStyleClass().add("t5");
         Text wind_dir = new Text();
+        wind_dir.getStyleClass().addAll("t4");
         wind_dir.textProperty().bind(Forecast_current.wind_dir_short);
+        wind_dir.fillProperty().bind(wind_spd.fillProperty());
         Text wind_dir_deg = new Text();
+        wind_dir_deg.getStyleClass().add("t_normal");
         wind_dir_deg.textProperty().bind(Forecast_current.wind_direction_text);
+        Text temp_txt = new Text("temp");
+        temp_txt.getStyleClass().add("t5");
         Text temp = new Text();
         temp.textProperty().bind(Forecast_current.temp_text);
-        Circle circle = new Circle();
+        Circle circle_out = new Circle();
+        Circle circle_inner = new Circle();
         wind_arc = draw_arc();
-        var t3 = new Pane(title, wind_dir, wind_dir_deg, temp, wind_spd, heading_dir, circle, wind_arc) {
+
+        setup_compass_direction_name();
+
+        var t3 = new Pane(title, speed,wind_dir, direction,wind_dir_deg, temp_txt, temp, wind_spd,km_h, circle_out, circle_inner,north,east,south,west, wind_arc) {
             @Override
             protected void layoutChildren() {
                 super.layoutChildren();
                 title.setX(0);
                 title.setY(10);
-                double txt_width = title.getLayoutBounds().getWidth();
-                wind_dir.setX(txt_width / 2 - wind_dir.getLayoutBounds().getWidth() / 2);
-                wind_dir.setY(title.getFont().getSize() + 10 + 10);                         // 10px od title
-                wind_dir_deg.setX(txt_width / 2 - wind_dir_deg.getLayoutBounds().getWidth() / 2);
-                wind_dir_deg.setY(wind_dir.getY() + wind_dir.getFont().getSize() + 2);      // 2px od wind_dir
+                speed.setX(0);
+                speed.setY(title.getY() + title.getFont().getSize() + 10);
+                wind_spd.setX(0);
+                wind_spd.setY(speed.getY() + speed.getFont().getSize()+15);
+                double txt_width = wind_spd.getLayoutBounds().getWidth();
+                km_h.setX(txt_width + 10);
+                km_h.setY(wind_spd.getY());
+
+                wind_dir.setX(0);
+                wind_dir.setY( getHeight() );
+                txt_width = wind_dir.getLayoutBounds().getWidth();
+                wind_dir_deg.setX(txt_width + 10);
+                wind_dir_deg.setY(wind_dir.getY());
+                direction.setX(0);
+                direction.setY(wind_dir.getY() - wind_dir.getFont().getSize() - 2);
+
+                temp_txt.setX(getWidth() - temp_txt.getLayoutBounds().getWidth() );
+                temp_txt.setY(0);
                 txt_width = temp.getLayoutBounds().getWidth();
                 temp.setX(getWidth() - txt_width);
-                temp.setY(10);
-                txt_width = heading_dir.getLayoutBounds().getWidth();
-                heading_dir.setX(getWidth() / 2 - txt_width / 2);
-                heading_dir.setY(3);
-                txt_width = wind_spd.getLayoutBounds().getWidth();
-                wind_spd.setX(getWidth() - txt_width);
-                wind_spd.setY(getHeight());
-                circle.setRadius((getHeight() / 2) * CIRCLE_SCALE);
-                circle.setCenterX(getWidth() / 2);
-                circle.setCenterY(getHeight() / 2);
-                wind_arc.setCenterX(getWidth() / 2);
-                wind_arc.setCenterY(getHeight() / 2 - circle.getRadius() + wind_arc.getRadiusY());
-                rotate.setPivotX(getWidth() / 2); // tacka rotacije po x
-                rotate.setPivotY(getHeight() / 2); // tacka rotacije po y
+                temp.setY(temp_txt.getY() + temp_txt.getFont().getSize() + 5);
+                circle_out.setRadius((getHeight() / 2) * CIRCLE_SCALE);
+                circle_out.setCenterX(getWidth() - circle_out.getRadius());
+                circle_out.setCenterY(getHeight() - circle_out.getRadius() );
+                circle_inner.setRadius(circle_out.getRadius() - wind_arc.getRadiusY());
+                circle_inner.setCenterX(getWidth() - circle_out.getRadius());
+                circle_inner.setCenterY(getHeight() - circle_out.getRadius() );
+
+                wind_arc.setCenterX(getWidth() - circle_out.getRadius() );
+                wind_arc.setCenterY(getHeight() - circle_out.getRadius()  - circle_inner.getRadius() + wind_arc.getRadiusY());
+                rotate.setPivotX(getWidth() - circle_out.getRadius() ); // tacka rotacije po x
+                rotate.setPivotY(getHeight() - circle_out.getRadius() ); // tacka rotacije po y
+
+                north.setX(getWidth() - circle_out.getRadius() - north.getLayoutBounds().getWidth() / 2);
+                north.setY(getHeight() - circle_out.getRadius()  - circle_inner.getRadius()-2 );
+                north_rotate.setPivotX(getWidth() - circle_out.getRadius() );
+                north_rotate.setPivotY(getHeight() - circle_out.getRadius() );
+                south.setX(getWidth() - circle_out.getRadius() - south.getLayoutBounds().getWidth() / 2);
+                south.setY(getHeight() - circle_out.getRadius()  - circle_inner.getRadius()-2 );
+                south_rotate.setPivotX(getWidth() - circle_out.getRadius() );
+                south_rotate.setPivotY(getHeight() - circle_out.getRadius() );
+                east.setX(getWidth() - circle_out.getRadius() - east.getLayoutBounds().getWidth() / 2 );
+                east.setY(getHeight() - circle_out.getRadius()  - circle_inner.getRadius()-2);
+                east_rotate.setPivotX(getWidth() - circle_out.getRadius() );
+                east_rotate.setPivotY(getHeight() - circle_out.getRadius() );
+                west.setX(getWidth() - circle_out.getRadius() - west.getLayoutBounds().getWidth() / 2);
+                west.setY(getHeight() - circle_out.getRadius()  - circle_inner.getRadius()-2 );
+                west_rotate.setPivotX(getWidth() - circle_out.getRadius() );
+                west_rotate.setPivotY(getHeight() - circle_out.getRadius() );
 //                rotate.setAngle(270);
 //                circle.setTranslateX(getWidth()/2 - circle.getRadius()/2);
 //                circle.setTranslateY(getHeight()/2 - circle.getRadius()/2);
@@ -251,11 +325,13 @@ public class MainPage {
 //        circle.translateXProperty().bind(t3.layoutXProperty());
 //        circle.translateYProperty().bind(t3.layoutYProperty());
         if (theme.isDarkMode()) {
-            circle.setStroke(Color.WHITE);
+            circle_out.setStroke(Color.WHITE);
+            circle_inner.setStroke( Color.WHITE.darker());
         } else {
-            circle.setStroke(Color.BLACK);
+            circle_out.setStroke(Color.BLACK);
+            circle_inner.setStroke( Color.BLACK.darker());
         }
-        circle.setFill(new ImagePattern(bike_img));
+        circle_inner.setFill(new ImagePattern(bike_img));
         rotate.angleProperty().bind(wind_rotation.subtract(System_Info.compass));
 //        circle.setRotate(-90);
         card3.setBody(t3);
@@ -380,6 +456,51 @@ public class MainPage {
         suburb.textProperty().bind(System_Info.suburb_text);
         road_house_number.textProperty().bind(System_Info.road_house_number_text);
 //        altitude.textProperty().bind(System_Info.alt);
+    }
+
+
+    //---------------------------------------------------
+    private static void setup_compass_direction_name() {
+        north = new Text("N");
+//        north.setFont(Font.font("Arial", FontWeight.BOLD, 10));
+        north.setStyle("-fx-font-family: 'Roboto'; -fx-font-size: 9pt; -fx-font-weight: bold;");
+        north_rotate = new Rotate();
+        //setting properties for the rotate object.
+        north_rotate.setPivotX(0);     // tacka rotacije po x
+        north_rotate.setPivotY(0);     // tacka rotacije po y
+        north.getTransforms().add(north_rotate);
+
+        south = new Text("S");
+//        south.setFont(Font.font("Arial", FontWeight.BOLD, 10));
+        south.setStyle("-fx-font-family: 'Roboto'; -fx-font-size: 9pt; -fx-font-weight: bold;");
+        south_rotate = new Rotate();
+//        south_rotate.setAngle(0);
+        south_rotate.setPivotX(0);     // tacka rotacije po x
+        south_rotate.setPivotY(0);     // tacka rotacije po y
+        south.getTransforms().add(south_rotate);
+
+        east = new Text("E");
+//        east.setFont(Font.font("Arial", FontWeight.BOLD, 10));
+        east.setStyle("-fx-font-family: 'Roboto'; -fx-font-size: 9pt; -fx-font-weight: bold;");
+        east_rotate = new Rotate();
+//        east_rotate.setAngle(0);
+        east_rotate.setPivotX(0);     // tacka rotacije po x
+        east_rotate.setPivotY(0);     // tacka rotacije po y
+        east.getTransforms().add(east_rotate);
+
+        west = new Text("W");
+//        west.setFont(Font.font("Arial", FontWeight.BOLD, 10));
+        west.setStyle("-fx-font-family: 'Roboto'; -fx-font-size: 9pt; -fx-font-weight: bold;");
+        west_rotate = new Rotate();
+//        west_rotate.setAngle(0);
+        west_rotate.setPivotX(0);     // tacka rotacije po x
+        west_rotate.setPivotY(0);     // tacka rotacije po y
+        west.getTransforms().add(west_rotate);
+
+        north_rotate.angleProperty().bind(north_angle.subtract(System_Info.compass));
+        south_rotate.angleProperty().bind(south_angle.subtract(System_Info.compass));
+        east_rotate.angleProperty().bind(east_angle.subtract(System_Info.compass));
+        west_rotate.angleProperty().bind(west_angle.subtract(System_Info.compass));
     }
 
 

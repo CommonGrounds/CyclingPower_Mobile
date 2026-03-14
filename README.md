@@ -45,7 +45,7 @@
 
 ## 📸 Screenshots
 <p align="center">
-  <img src=".screenshots/CyclePower_1.jpg" width="350" title="Dashboard View">
+  <img src=".screenshots/CyclePower_1.png" width="350" title="Dashboard View">
   <img src=".screenshots/CyclePower_2.jpg" width="350" title="Map View">
 </p>
 

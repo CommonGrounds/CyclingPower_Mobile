@@ -28,7 +28,7 @@ public class Forecast_current {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Forecast_current.class);
 
-    public static BigDecimal temperature, wind_speed, wind_direction, relative_humidity, elevation, surface_pressure, longitude, latitude, utc_offset_seconds,
+    public static BigDecimal temperature,wind_speed= BigDecimal.valueOf(0.0), wind_direction, relative_humidity, elevation, surface_pressure, longitude, latitude, utc_offset_seconds,
              weather_code= BigDecimal.valueOf(100);
     public BigDecimal is_day;
     public String temperature_unit, wind_speed_unit, wind_direction_unit, relative_humidity_unit, surface_pressure_unit, timezone, time,
@@ -38,13 +38,13 @@ public class Forecast_current {
     /*JSONValue*/ String error, reason;
     public static Rotate rotate = new Rotate();
 
-    public static final StringProperty temp_text = new SimpleStringProperty("---");
+    public static final StringProperty temp_text = new SimpleStringProperty("  °C");
     public static final IntegerProperty temperature_int = new SimpleIntegerProperty(0);
-    public static final StringProperty wind_speed_text = new SimpleStringProperty("0.0 km/h");
-    public static final StringProperty wind_direction_text = new SimpleStringProperty("---");
+    public static final StringProperty wind_speed_text = new SimpleStringProperty("---");
+    public static final StringProperty wind_direction_text = new SimpleStringProperty(" °");
     public static final StringProperty relative_humidity_text = new SimpleStringProperty("---");
     public static final StringProperty surface_pressure_text = new SimpleStringProperty("---");
-    public static final StringProperty wind_dir_short = new SimpleStringProperty("?");
+    public static final StringProperty wind_dir_short = new SimpleStringProperty("---");
     public static final StringProperty weather_code_text = new SimpleStringProperty("Weather");
 
     public boolean parseData(String text) throws URISyntaxException, IOException, JsonException {
@@ -78,7 +78,7 @@ public class Forecast_current {
 
         temp_text.set(/*"Temperature: " + */temperature + "  °C");
         temperature_int.set(temperature.intValue());
-        wind_speed_text.set(wind_speed + " km/h");
+        wind_speed_text.set(String.valueOf(wind_speed.intValue()));
         wind_direction_text.set(/*"Wind Direction: " + */wind_direction + " °");
         relative_humidity_text.set("Humidity: " + relative_humidity + " %");
         surface_pressure_text.set("Pressure: " + surface_pressure + " hPa");
@@ -242,27 +242,11 @@ public class Forecast_current {
 
 
     //-----------------------------------------------------
+//    static String[] dirs = {"N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"};
+    static String[] dirs = {"N",  "NE",  "E",  "SE", "S", "SW", "W",  "NW"};
+
     public String wind_direction_description(int wind_direction) {
-        String description = "?";
-        if (wind_direction < 20) {
-            description = "N";
-        } else if (wind_direction < 70) {
-            description = "NE";
-        } else if (wind_direction < 110) {
-            description = "E";
-        } else if (wind_direction < 160) {
-            description = "SE";
-        } else if (wind_direction < 200) {
-            description = "S";
-        } else if (wind_direction < 250) {
-            description = "SW";
-        } else if (wind_direction < 290) {
-            description = "W";
-        } else if (wind_direction < 340) {
-            description = "NW";
-        } else {
-            description = "N";
-        }
-        return description;
+//        return dirs[Math.toIntExact(Math.round(wind_direction / 22.5) % 16)];
+        return dirs[Math.toIntExact(Math.round(wind_direction / 45.0) % 8)];
     }
 }
