@@ -52,7 +52,7 @@ public class HelpPage {
                 """;
 
         var article = """
-                The [b]color arrow[/b] shows wind direction relative to your bike 
+                The [b]color arrow[/b] shows wind direction relative to your bike
                 ([b]Top = Front / Headwind[/b], Bottom = Tailwind, Sides = Crosswind).
                 
                 [heading=3][color=skyblue][icon=compass size=24/][/color] Wind Card Colors[/heading]
@@ -77,8 +77,8 @@ public class HelpPage {
                 
                 Power measurement accuracy depends on correctly entering your [b]bike + rider weight[/b] in the settings.
                 
-                [center][icon=github size=%f/] [url="https://github.com/CommonGrounds"]Source Code on GitHub[/url][/center]
-                """.formatted(Font.getDefault().getSize() - 3);
+                [center][icon=github size=%.0f/] [url="https://github.com/CommonGrounds"]Source Code on GitHub[/url][/center]
+                """.formatted(Font.getDefault().getSize() * 1.2); // important -  kada je font mora %.0f
 
 
         var image = getImage();
