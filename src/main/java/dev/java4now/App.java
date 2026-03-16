@@ -222,7 +222,8 @@ public class App extends Application {
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-//                System_Info.cityService = new CityService(stream);   // .txt
+//                System.out.println("Find city: " + System_Info.cityService.findByLatLong(44.87834717084236, 20.665928677876934));  // important debug
+//                lat = 44.87080900821482;lon = 20.640322466802665;forecast_flag.set(true);                                          // important debug
                 try {
                     getGPSNames();
                 } catch (IOException | JsonException | URISyntaxException e) {
@@ -235,8 +236,6 @@ public class App extends Application {
                 sound_sonar = new Sound(sonar);
                 sound_click = new Sound(click);
                 sound_finish = new Sound(finish);
-
-//                System.out.println("Find city: " + System_Info.cityService.findByLatLong(44.87834717084236, 20.665928677876934)); // important debug
             }
         });
     }

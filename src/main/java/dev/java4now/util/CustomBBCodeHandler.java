@@ -6,30 +6,46 @@ import atlantafx.base.util.BBCodeHandler;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextFlow;
 import org.jetbrains.annotations.Nullable;
+import org.kordamp.ikonli.boxicons.BoxiconsSolid;
 import org.kordamp.ikonli.carbonicons.CarbonIcons;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.fontawesome.FontAwesome;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class CustomBBCodeHandler<T extends Pane> extends BBCodeHandler.Default<T> {
 
-    // Automatski podržava SVE Feather ikone – nikad više ručno dodavanje!
-    private static final Set<String> SUPPORTED_ICONS = Arrays.stream(Feather.values())
-            .map(feather -> feather.name().toLowerCase().replace("_", "-"))  // FTH_EYE_OFF → eye-off
-            .collect(Collectors.toSet());
+    private static final Map<String, Supplier<FontIcon>> ICON_SUPPLIERS = new HashMap<>();
 
-    private static final Set<String> SUPPORTED_ICONS_2 = Arrays.stream(CarbonIcons.values())
-            .map(carbonIcons -> carbonIcons.name().toLowerCase().replace("_", "-"))  // FTH_EYE_OFF → eye-off
-            .collect(Collectors.toSet());
-
-    private static final Set<String> SUPPORTED_ICONS_3 = Arrays.stream(FontAwesome.values())
-            .map(fontAwesome -> fontAwesome.name().toLowerCase().replace("_", "-"))  // FTH_EYE_OFF → eye-off
-            .collect(Collectors.toSet());
+    static {
+        // Feather
+        for (Feather f : Feather.values()) {
+            String key = f.name();//.toLowerCase().replace("_", "-");
+            ICON_SUPPLIERS.put(key, () -> new FontIcon(f));
+        }
+        // Carbon
+        for (CarbonIcons c : CarbonIcons.values()) {
+            String key = c.name();//.toLowerCase().replace("_", "-");
+            ICON_SUPPLIERS.put(key, () -> new FontIcon(c));
+        }
+        // FontAwesome
+        for (FontAwesome fa : FontAwesome.values()) {
+            String key = fa.name();//.toLowerCase().replace("_", "-");
+            ICON_SUPPLIERS.put(key, () -> new FontIcon(fa));
+        }
+        // BoxiconsSolid
+        for (BoxiconsSolid b : BoxiconsSolid.values()) {
+            String key = b.name();//.toLowerCase().replace("_", "-");
+            ICON_SUPPLIERS.put(key, () -> new FontIcon(b));
+        }
+        // Ako dodaš još jednu biblioteku → samo dodaj novi for petlju
+    }
 
     public CustomBBCodeHandler(T root) {
         super(root);
@@ -41,13 +57,6 @@ public class CustomBBCodeHandler<T extends Pane> extends BBCodeHandler.Default<T
             String iconName = params != null ? params.getOrDefault("icon", "") : "";
             if (iconName.isBlank()) {
                 return null; // ignorisi [icon] bez parametra
-            }
-
-            String normalized = iconName.toLowerCase().replace("-", "_");
-            if (!SUPPORTED_ICONS.contains(normalized.replace("_", "-"))
-                    && !SUPPORTED_ICONS_2.contains(normalized.replace("_", "-"))
-                    && !SUPPORTED_ICONS_3.contains(normalized.replace("_", "-"))) {
-                return null; // nepoznata ikona
             }
 
             // Koristimo običan Tag, ali sa posebnim imenom i parametrima
@@ -70,17 +79,17 @@ public class CustomBBCodeHandler<T extends Pane> extends BBCodeHandler.Default<T
             }
 
             String normalized = iconName.toUpperCase().replace("-", "_");
+//            String normalized = iconName.toLowerCase().replace("-", "_");
 //            System.out.println("icon: " + normalized);
 
-            FontIcon icon;
-            try{
-                icon = new FontIcon(Feather.valueOf(normalized));
-            }catch ( IllegalArgumentException e){
-                try {
-                    icon = new FontIcon(FontAwesome.valueOf(normalized));
-                } catch (IllegalArgumentException ex) {
-                    icon = new FontIcon(CarbonIcons.valueOf(normalized));
-                }
+            Supplier<FontIcon> supplier = ICON_SUPPLIERS.get(normalized);
+
+            FontIcon icon = (supplier != null) ? supplier.get() : null; // ili default ikona
+    //        System.out.println("icon: " + icon);
+
+            if (icon == null) {
+                // fallback, log, ili default ikona npr. question-mark
+                icon = new FontIcon(Feather.HELP_CIRCLE); // ili šta god
             }
 
             icon.setOnMouseClicked(e -> System.out.println("clicked: " + iconName ));

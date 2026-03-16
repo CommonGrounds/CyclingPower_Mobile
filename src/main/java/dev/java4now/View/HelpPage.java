@@ -43,32 +43,43 @@ public class HelpPage {
 
         var root = new VBox();
 
+
         var header = """
                 [center][heading=1]CyclePower[/heading][/center]
                 [i]Open-source cycling computer powered by [url="https://gluonhq.com/"]Gluon[/url]. Licensed under GPL V3.[/i]
                 [hr/]
                 [heading=3][color=skyblue][icon=wind-gusts size=24/][/color] Wind Card[/heading]
                 """;
+
         var article = """
+                The [b]color arrow[/b] shows wind direction relative to your bike 
+                ([b]Top = Front / Headwind[/b], Bottom = Tailwind, Sides = Crosswind).
                 
-                The red arrow shows wind direction relative to your bike (Top = Front).
-                [ul]
-                [li]Orientation is based on magnetic north.[/li]
-                [li]Keep your device away from magnetic mounts for accuracy.[/li]
+                [heading=3][color=skyblue][icon=compass size=24/][/color] Wind Card Colors[/heading]
+                
+                The sector color changes based on average wind speed (km/h):
+                [ul spacing=8]
+                [li][color=limegreen][icon=pie-chart-alt size=22/][/color] [b]Green[/b] (< 10 km/h) – Light breeze, almost no effect[/li]
+                [li][color=#00BCD4][icon=pie-chart-alt size=22/][/color] [b]Cyan[/b] (10–19 km/h) – Noticeable, watch crosswinds[/li]
+                [li][color=orange][icon=pie-chart-alt size=22/][/color] [b]Orange[/b] (20–29 km/h) – Strong, headwind slows you, crosswind unstable[/li]
+                [li][color=red][icon=pie-chart-alt size=22/][/color] [b]Red[/b] (30–44 km/h) – Very hard, exhausting headwind, risky crosswind[/li]
+                [li][color=#9e28a3][icon=pie-chart-alt size=22/][/color] [b]Purple[/b] (≥ 45 km/h) – Extreme, dangerous – avoid riding if possible[/li]
                 [/ul]
+                [color=gray][i]The same pie-chart icon represents the wind sector in your compass – only the color changes with speed.[/i][/color]
                 
-                [heading=3][color=orange][icon=photo size=24/][/color] Display Settings[/heading]
+                [heading=3][color=orange][icon=settings size=24/][/color] Display Settings[/heading]
                 [ul]
                 [li][b]Wake Lock:[/b] Keeps the screen on during your ride.[/li]
-                [li][b]Dark Mode:[/b] Recommended to preserve battery life.[/li]
+                [li][b]Dark Mode:[/b] Recommended for better visibility and battery saving.[/li]
                 [/ul]
                 
                 [heading=3][color=yellow][icon=balance-scale size=24/][/color] Bike Physics[/heading]
                 
-                Accuracy of power measurement depends on precise input of both [b]bike and rider weight[/b] in the settings menu.
+                Power measurement accuracy depends on correctly entering your [b]bike + rider weight[/b] in the settings.
                 
-                [center][icon=github size=%f/] [url="https://github.com/CommonGrounds"]Source Code[/url][/center]
+                [center][icon=github size=%f/] [url="https://github.com/CommonGrounds"]Source Code on GitHub[/url][/center]
                 """.formatted(Font.getDefault().getSize() - 3);
+
 
         var image = getImage();
 // Dodajemo stil za moderniji izgled
@@ -90,9 +101,9 @@ public class HelpPage {
         parser.parse();
 
         root.setPadding(new Insets(0, padding, 0, padding)); // IMPORTANT - stavljamo padding pre dodavanja child vbox-a da scroll ne bi setao horizontalno
-        root.getChildren().addAll(container_header/*BBCodeParser.createLayout(header)*/,imageContainer, container );
+        root.getChildren().addAll(container_header/*BBCodeParser.createLayout(header)*/, imageContainer, container);
 
-        root.setStyle("-fx-font-family: 'Roboto'; -fx-font-size: " + ( Font.getDefault().getSize() - 4 ) + "pt;"); // important - da bi imali sve bold, italic etc opcije
+        root.setStyle("-fx-font-family: 'Roboto'; -fx-font-size: " + (Font.getDefault().getSize() - 4) + "pt;"); // important - da bi imali sve bold, italic etc opcije
 
         addHandlers(root);
 

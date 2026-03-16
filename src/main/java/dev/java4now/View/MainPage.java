@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Arc;
 import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
@@ -209,8 +210,9 @@ public class MainPage {
 
         card3 = new Card();
         double CIRCLE_SCALE = 0.75;           // Smanjujem Pane tj. circle
+        int CIRCLE_DIFF = 13;
         Text title = new Text("Wind");
-        Text speed = new Text("speed");
+        Text speed = new Text("Speed");
         speed.getStyleClass().add("t5");
         Text wind_spd = new Text();
         wind_spd.getStyleClass().add("t3");
@@ -240,15 +242,49 @@ public class MainPage {
         });
         Text km_h = new Text("km/h");
         km_h.getStyleClass().add("t5");
-        Text direction = new Text("direction");
+
+        Text direction = new Text("Wind gust");
         direction.getStyleClass().add("t5");
+        Text wind_dir_gust = new Text();
+        wind_dir_gust.getStyleClass().add("t4");
+        wind_dir_gust.textProperty().bind(new StringBinding() {
+            {
+                bind(Forecast_current.wind_gust_text);;
+            }
+            @Override
+            protected String computeValue() {
+                if (Forecast_current.wind_gust.doubleValue() < 10.0) {
+                    wind_dir_gust.setFill(Color.LIMEGREEN);
+                    return Forecast_current.wind_gust_text.get();
+                } else if ( Forecast_current.wind_gust.doubleValue() < 20.0){
+                    wind_dir_gust.setFill(Color.web("#00BCD4"));
+                    return Forecast_current.wind_gust_text.get();
+                } else if ( Forecast_current.wind_gust.doubleValue() < 30.0){
+                    wind_dir_gust.setFill(Color.ORANGE);
+                    return Forecast_current.wind_gust_text.get();
+                } else if ( Forecast_current.wind_gust.doubleValue() < 45.0){
+                    wind_dir_gust.setFill(Color.RED);
+                    return Forecast_current.wind_gust_text.get();
+                }else {
+                    wind_dir_gust.setFill(Color.web("#9e28a3"));
+                    return Forecast_current.wind_gust_text.get();
+                }
+            }
+        });
         Text wind_dir = new Text();
-        wind_dir.getStyleClass().addAll("t4");
-        wind_dir.textProperty().bind(Forecast_current.wind_dir_short);
-        wind_dir.fillProperty().bind(wind_spd.fillProperty());
-        Text wind_dir_deg = new Text();
-        wind_dir_deg.getStyleClass().add("t_normal");
-        wind_dir_deg.textProperty().bind(Forecast_current.wind_direction_text);
+        wind_dir.getStyleClass().addAll("t_normal");
+        wind_dir.textProperty().bind(new StringBinding() {
+            {
+                bind(Forecast_current.wind_dir_short);
+            }
+            @Override
+            protected String computeValue() {
+                return "( " + Forecast_current.wind_dir_short.get() + " )";
+            }
+        });
+        wind_dir.fillProperty().bind(wind_dir_gust.fillProperty());
+        Text km_h_2 = new Text("km/h");
+        km_h_2.getStyleClass().add("t5");
         Text temp_txt = new Text("temp");
         temp_txt.getStyleClass().add("t5");
         Text temp = new Text();
@@ -256,10 +292,19 @@ public class MainPage {
         Circle circle_out = new Circle();
         Circle circle_inner = new Circle();
         wind_arc = draw_arc();
+        wind_arc.fillProperty().bind(new ObjectBinding<Paint>() {
+            {
+                bind(wind_spd.fillProperty());
+            }
+            @Override
+            protected Paint computeValue() {
+                return Color.web(wind_spd.getFill().toString(),0.7);
+            }
+        });
 
         setup_compass_direction_name();
 
-        var t3 = new Pane(title, speed,wind_dir, direction,wind_dir_deg, temp_txt, temp, wind_spd,km_h, circle_out, circle_inner,north,east,south,west, wind_arc) {
+        var t3 = new Pane(title, speed,wind_dir, direction,wind_dir_gust, temp_txt, temp, wind_spd,km_h,km_h_2, circle_out, circle_inner,wind_arc,north,east,south,west) {
             @Override
             protected void layoutChildren() {
                 super.layoutChildren();
@@ -270,16 +315,19 @@ public class MainPage {
                 wind_spd.setX(0);
                 wind_spd.setY(speed.getY() + speed.getFont().getSize()+15);
                 double txt_width = wind_spd.getLayoutBounds().getWidth();
-                km_h.setX(txt_width + 10);
+                km_h.setX(txt_width + 4);
                 km_h.setY(wind_spd.getY());
 
-                wind_dir.setX(0);
-                wind_dir.setY( getHeight() );
-                txt_width = wind_dir.getLayoutBounds().getWidth();
-                wind_dir_deg.setX(txt_width + 10);
-                wind_dir_deg.setY(wind_dir.getY());
+                wind_dir_gust.setX(0);
+                wind_dir_gust.setY(getHeight());
+                txt_width = wind_dir_gust.getLayoutBounds().getWidth();
+                wind_dir.setX(txt_width + 3);
+                wind_dir.setY( wind_dir_gust.getY() );
+                txt_width = txt_width + 3 + wind_dir.getLayoutBounds().getWidth();
+                km_h_2.setX(txt_width + 3);
+                km_h_2.setY(wind_dir_gust.getY());
                 direction.setX(0);
-                direction.setY(wind_dir.getY() - wind_dir.getFont().getSize() - 2);
+                direction.setY(wind_dir_gust.getY() - wind_dir_gust.getFont().getSize() - 2);
 
                 temp_txt.setX(getWidth() - temp_txt.getLayoutBounds().getWidth() );
                 temp_txt.setY(0);
@@ -289,12 +337,12 @@ public class MainPage {
                 circle_out.setRadius((getHeight() / 2) * CIRCLE_SCALE);
                 circle_out.setCenterX(getWidth() - circle_out.getRadius());
                 circle_out.setCenterY(getHeight() - circle_out.getRadius() );
-                circle_inner.setRadius(circle_out.getRadius() - wind_arc.getRadiusY());
+                circle_inner.setRadius(circle_out.getRadius() - CIRCLE_DIFF /* wind_arc.getRadiusY()/2 */);
                 circle_inner.setCenterX(getWidth() - circle_out.getRadius());
                 circle_inner.setCenterY(getHeight() - circle_out.getRadius() );
 
                 wind_arc.setCenterX(getWidth() - circle_out.getRadius() );
-                wind_arc.setCenterY(getHeight() - circle_out.getRadius()  - circle_inner.getRadius() + wind_arc.getRadiusY());
+                wind_arc.setCenterY(getHeight() - circle_out.getRadius()  - circle_out.getRadius() + wind_arc.getRadiusY());
                 rotate.setPivotX(getWidth() - circle_out.getRadius() ); // tacka rotacije po x
                 rotate.setPivotY(getHeight() - circle_out.getRadius() ); // tacka rotacije po y
 
@@ -331,6 +379,7 @@ public class MainPage {
             circle_out.setStroke(Color.BLACK);
             circle_inner.setStroke( Color.BLACK.darker());
         }
+        circle_out.setFill(Color.TRANSPARENT);
         circle_inner.setFill(new ImagePattern(bike_img));
         rotate.angleProperty().bind(wind_rotation.subtract(System_Info.compass));
 //        circle.setRotate(-90);
@@ -509,19 +558,19 @@ public class MainPage {
         Arc arc = new Arc();
         arc.setCenterX(0);
         arc.setCenterY(0);
-        arc.setRadiusX(16);
-        arc.setRadiusY(16);
-        arc.setStartAngle(65);    // pocetni ugao desno
-        arc.setLength(50);        // od pocetnog ugla
+        arc.setRadiusX(32);
+        arc.setRadiusY(32);
+        arc.setStartAngle(55);    // pocetni ugao desno - 55 + 35 = 90 + 35 = 125 ( 55 + 70 ) - da bi bio centar na 12 sati
+        arc.setLength(70);        // od pocetnog ugla
         arc.setType(ArcType.ROUND);
-        arc.setFill(Color.RED);
+        arc.setFill(Color.rgb(255,0,0,0.7)); // pocetna boja
 
         rotate = new Rotate();
 
         //setting properties for the rotate object.
         rotate.setAngle(0);
-        rotate.setPivotX(0);     // tacka rotacije po x
-        rotate.setPivotY(0);     // tacka rotacije po y
+        rotate.setPivotX(0);     // pocetna tacka rotacije po x
+        rotate.setPivotY(0);     // pocetna tacka rotacije po y
         arc.getTransforms().add(rotate);
 
         return arc;

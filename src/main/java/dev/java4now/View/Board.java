@@ -53,7 +53,7 @@ public class Board extends StackPane {
                     @Override
                     public void run() {
                         String Meteo_url = "https://api.open-meteo.com/v1/forecast?latitude=" + System_Info.lat + "&longitude=" + System_Info.lon + "&current=temperature_2m,is_day,wind_speed_10m,wind_direction_10m,"
-                                + "relative_humidity_2m,weather_code,surface_pressure&hourly=temperature_2m,rain,snowfall&daily=weather_code,wind_speed_10m_max,"
+                                + "wind_gusts_10m,relative_humidity_2m,weather_code,surface_pressure&hourly=temperature_2m,rain,snowfall&daily=weather_code,wind_speed_10m_max,"
                                 + "wind_direction_10m_dominant&timezone=auto";
                         String AQI_url = "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=" + System_Info.lat + "&longitude=" + System_Info.lon + "&current=european_aqi,pm10,pm2_5,carbon_monoxide,"
                                 + "nitrogen_dioxide,sulphur_dioxide,dust,uv_index&hourly=uv_index&timezone=auto&forecast_days=7";

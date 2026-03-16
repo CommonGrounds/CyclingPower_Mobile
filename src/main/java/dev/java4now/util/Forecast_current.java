@@ -29,7 +29,7 @@ public class Forecast_current {
     private static final Logger LOGGER = LoggerFactory.getLogger(Forecast_current.class);
 
     public static BigDecimal temperature,wind_speed= BigDecimal.valueOf(0.0), wind_direction, relative_humidity, elevation, surface_pressure, longitude, latitude, utc_offset_seconds,
-             weather_code= BigDecimal.valueOf(100);
+             weather_code= BigDecimal.valueOf(100),wind_gust= BigDecimal.valueOf(0.0);
     public BigDecimal is_day;
     public String temperature_unit, wind_speed_unit, wind_direction_unit, relative_humidity_unit, surface_pressure_unit, timezone, time,
             weather_code_description, timezone_abbreviation, WMO_image_name;
@@ -42,6 +42,7 @@ public class Forecast_current {
     public static final IntegerProperty temperature_int = new SimpleIntegerProperty(0);
     public static final StringProperty wind_speed_text = new SimpleStringProperty("---");
     public static final StringProperty wind_direction_text = new SimpleStringProperty(" °");
+    public static final StringProperty wind_gust_text = new SimpleStringProperty("---");
     public static final StringProperty relative_humidity_text = new SimpleStringProperty("---");
     public static final StringProperty surface_pressure_text = new SimpleStringProperty("---");
     public static final StringProperty wind_dir_short = new SimpleStringProperty("---");
@@ -65,6 +66,7 @@ public class Forecast_current {
             temperature = (BigDecimal) current.get("temperature_2m");
             wind_speed = (BigDecimal) current.get("wind_speed_10m");
             wind_direction = (BigDecimal) current.get("wind_direction_10m");
+            wind_gust = (BigDecimal) current.get("wind_gusts_10m");
             relative_humidity = (BigDecimal) current.get("relative_humidity_2m");
             weather_code = (BigDecimal) current.get("weather_code");
             surface_pressure = (BigDecimal) current.get("surface_pressure");
@@ -80,6 +82,7 @@ public class Forecast_current {
         temperature_int.set(temperature.intValue());
         wind_speed_text.set(String.valueOf(wind_speed.intValue()));
         wind_direction_text.set(/*"Wind Direction: " + */wind_direction + " °");
+        wind_gust_text.set(String.valueOf(wind_gust.intValue()));
         relative_humidity_text.set("Humidity: " + relative_humidity + " %");
         surface_pressure_text.set("Pressure: " + surface_pressure + " hPa");
         wind_dir_short.set(wind_direction_description(wind_direction.intValue()));
