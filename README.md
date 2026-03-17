@@ -38,7 +38,7 @@
 * **Advanced Environmental Data:** Stay safe with integrated **Air Quality** monitoring, **UV Index**, and weather conditions (Fog, Temperature).
 * **Wind Awareness:** Unique wind direction and speed indicator to help you manage your effort against headwinds.
 * **Power & Cadence:** Support for external sensors to track power output (Watts) and pedaling cadence (RPM).
-* **Live Mapping:** Integrated OpenStreetMap view to track your route in real-time.
+* **Live Mapping:** Integrated [Gluon Maps](https://github.com/gluonhq/maps) view to track your route in real-time.
 * **GPS Precision:** Detailed location data including city, suburb, and street-level addressing.
 
 ---
