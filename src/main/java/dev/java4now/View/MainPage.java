@@ -243,7 +243,7 @@ public class MainPage {
         Text km_h = new Text("km/h");
         km_h.getStyleClass().add("t5");
 
-        Text direction = new Text("Wind gust");
+        Text direction = new Text("Gust");
         direction.getStyleClass().add("t5");
         Text wind_dir_gust = new Text();
         wind_dir_gust.getStyleClass().add("t4");
