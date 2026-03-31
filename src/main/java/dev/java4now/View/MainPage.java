@@ -222,22 +222,8 @@ public class MainPage {
             }
             @Override
             protected String computeValue() { // computeValue() se poziva svaki put kada se bind promenljiva promeni
-                if (Forecast_current.wind_speed.doubleValue() < 10.0) {
-                    wind_spd.setFill(Color.LIMEGREEN);
-                    return Forecast_current.wind_speed_text.get();
-                } else if ( Forecast_current.wind_speed.doubleValue() < 20.0){
-                    wind_spd.setFill(Color.web("#00BCD4"));
-                    return Forecast_current.wind_speed_text.get();
-                } else if ( Forecast_current.wind_speed.doubleValue() < 30.0){
-                    wind_spd.setFill(Color.ORANGE);
-                    return Forecast_current.wind_speed_text.get();
-                } else if ( Forecast_current.wind_speed.doubleValue() < 45.0){
-                    wind_spd.setFill(Color.RED);
-                    return Forecast_current.wind_speed_text.get();
-                }else {
-                    wind_spd.setFill(Color.web("#9e28a3"));
-                    return Forecast_current.wind_speed_text.get();
-                }
+                wind_spd.setFill(getWindColor(Forecast_current.wind_speed.doubleValue()));
+                return Forecast_current.wind_speed_text.get();
             }
         });
         Text km_h = new Text("km/h");
@@ -253,22 +239,8 @@ public class MainPage {
             }
             @Override
             protected String computeValue() {
-                if (Forecast_current.wind_gust.doubleValue() < 10.0) {
-                    wind_dir_gust.setFill(Color.LIMEGREEN);
-                    return Forecast_current.wind_gust_text.get();
-                } else if ( Forecast_current.wind_gust.doubleValue() < 20.0){
-                    wind_dir_gust.setFill(Color.web("#00BCD4"));
-                    return Forecast_current.wind_gust_text.get();
-                } else if ( Forecast_current.wind_gust.doubleValue() < 30.0){
-                    wind_dir_gust.setFill(Color.ORANGE);
-                    return Forecast_current.wind_gust_text.get();
-                } else if ( Forecast_current.wind_gust.doubleValue() < 45.0){
-                    wind_dir_gust.setFill(Color.RED);
-                    return Forecast_current.wind_gust_text.get();
-                }else {
-                    wind_dir_gust.setFill(Color.web("#9e28a3"));
-                    return Forecast_current.wind_gust_text.get();
-                }
+                wind_dir_gust.setFill(getWindColor(Forecast_current.wind_gust.doubleValue()));
+                return Forecast_current.wind_gust_text.get();
             }
         });
         Text wind_dir = new Text();
@@ -574,5 +546,15 @@ public class MainPage {
         arc.getTransforms().add(rotate);
 
         return arc;
+    }
+
+
+
+    private static Color getWindColor(double speed) {
+        if (speed < 10.0) return Color.LIMEGREEN;
+        if (speed < 20.0) return Color.web("#00BCD4");
+        if (speed < 30.0) return Color.ORANGE;
+        if (speed < 45.0) return Color.RED;
+        return Color.web("#9e28a3");
     }
 }
