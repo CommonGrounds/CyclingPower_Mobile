@@ -58,12 +58,20 @@ public class CyclingRecorder {
 
     public CyclingRecorder() throws IOException {
         FileName = "cycling_activity_" + System.currentTimeMillis() + ".fit";
-        localDir = new java.io.File(Services.get(StorageService.class)
+        localDir = Services.get(StorageService.class)
                 .flatMap(StorageService::getPrivateStorage)
-                .orElseThrow(() -> new IOException("No storage available"))
-                .getPath());
-        file = new java.io.File(localDir,FileName);
+                .map(storage -> new java.io.File(storage.getPath()))
+                .orElseGet(() -> {
+                    // Fallback za desktop (javafx:run)
+                    java.io.File homeDir = new java.io.File(System.getProperty("user.home"), ".cycling_app");
+                    if (!homeDir.exists()) {
+                        homeDir.mkdirs();
+                    }
+                    return homeDir;
+                });
+        file = new java.io.File(localDir, FileName);
     }
+
 
     public void startRecording() {
         if (!is_Recording()) {

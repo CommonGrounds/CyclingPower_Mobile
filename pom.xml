@@ -286,8 +286,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${main.class}.Launcher
-                                    </mainClass>  <!-- dodajemo .Launcher zbog mvn package (fat jar) -->
+                                    <mainClass>${main.class}.Launcher</mainClass>  <!-- dodajemo .Launcher zbog mvn package (fat jar) -->
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>

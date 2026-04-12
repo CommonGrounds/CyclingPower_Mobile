@@ -4,7 +4,7 @@
   <groupId>dev.java4now</groupId>
   <artifactId>CyclePower_Mob</artifactId>
   <name>CyclePower_Mob</name>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1.2-ALPHA</version>
   <build>
     <plugins>
       <plugin>
@@ -64,6 +64,7 @@
             <nativeImageArg>--initialize-at-build-time=com.alibaba.fastjson2.JSONFactory$CacheItem.chars</nativeImageArg>
           </nativeImageArgs>
           <attachList>
+            <list>lifecycle</list>
             <list>display</list>
             <list>device</list>
             <list>browser</list>
@@ -82,8 +83,20 @@
           </attachList>
           <graalvmHome>${GRAALVM_HOME}</graalvmHome>
           <reflectionList>
+            <list>dev.java4now.View.CustomDialog</list>
+            <list>dev.java4now.model.User</list>
             <list>dev.java4now.local_json.City_json</list>
+            <list>io.github.wycst.wast.json.JSON</list>
             <list>javafx.scene.media.AudioClip</list>
+            <list>com.sun.prism.impl.ManagedResource</list>
+            <list>com.sun.prism.impl.BaseTexture</list>
+            <list>com.sun.prism.impl.ps.BaseShaderContext</list>
+            <list>com.sun.scenario.effect.LinearConvolveCoreEffect</list>
+            <list>com.sun.scenario.effect.impl.prism.ps.PPSOneSamplerPeer</list>
+            <list>com.sun.scenario.effect.impl.prism.ps.PPSPhongLighting_DISTANTPeer</list>
+            <list>com.sun.scenario.effect.PhongLighting</list>
+            <list>com.sun.scenario.effect.FilterEffect</list>
+            <list>com.sun.javafx.sg.prism.EffectFilter</list>
           </reflectionList>
           <verbose>false</verbose>
           <resourcesList>
@@ -92,6 +105,7 @@
             <list>dev/java4now/data/[^/]+$</list>
             <list>dev/java4now/data_json/[^/]+$</list>
             <list>dev/java4now/sounds/[^/]+$</list>
+            <list>dev/java4now/fonts/[^/]+$</list>
           </resourcesList>
           <releaseConfiguration />
         </configuration>
@@ -123,6 +137,10 @@
       <id>gluon-releases</id>
       <url>https://nexus.gluonhq.com/nexus/content/repositories/releases/</url>
     </pluginRepository>
+    <pluginRepository>
+      <id>Snapshots</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </pluginRepository>
   </pluginRepositories>
   <properties>
     <maven.compiler.release>17</maven.compiler.release>
@@ -132,15 +150,16 @@
     <attach.custom_display_version>4.0.22-CUSTOM_SNAPSHOT</attach.custom_display_version>
     <main.class>dev.java4now</main.class>
     <maven.compiler.source>17</maven.compiler.source>
-    <gluonfx.plugin.version>1.0.23</gluonfx.plugin.version>
+    <gluonfx.plugin.version>1.0.26</gluonfx.plugin.version>
     <gluonfx.target>host</gluonfx.target>
-    <lib.ikonli.version>12.3.1</lib.ikonli.version>
+    <lib.ikonli.version>12.4.0</lib.ikonli.version>
     <maven.compiler.target>17</maven.compiler.target>
     <maps.version>2.0.0-ea+6</maps.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <attach.custom_ble_version>4.0.22-CUSTOM_SNAPSHOT</attach.custom_ble_version>
     <lib.atlantafx.version>2.0.1</lib.atlantafx.version>
     <GRAALVM_HOME>/home/ryzen/GRAAL_VM/graalvm-svm-java17-linux-gluon-22.1.0.1-Final</GRAALVM_HOME>
-    <javafx.version>21.0.6</javafx.version>
+    <javafx.version>21.0.8</javafx.version>
     <tilesfx.version>17.1.31</tilesfx.version>
     <javafx.plugin.version>0.0.8</javafx.plugin.version>
   </properties>

@@ -77,7 +77,7 @@ public class System_Info {
     }
 
     public static DisplayService displayService;
-    public static Dimension2D dimension = new Dimension2D(800, 600);
+    public static Dimension2D dimension = new Dimension2D(400, 880);
     public static String platform = "Unknown";
     public  static Notification msg;
     public static double lat,lon;
