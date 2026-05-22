@@ -17,7 +17,7 @@ import com.gluonhq.attach.position.PositionService;
 import com.gluonhq.attach.util.Services;
 import com.gluonhq.attach.settings.SettingsService;
 import dev.java4now.View.SecondPage;
-import dev.java4now.http.SendToServer;
+import dev.java4now.local.CityService;
 import dev.java4now.local_json.CityService_json;
 import dev.java4now.model.CyclingRecorder;
 import dev.java4now.util.*;
@@ -33,7 +33,6 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.Background;
@@ -52,16 +51,13 @@ import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.OptionalDouble;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.gluonhq.attach.position.PositionService.DEFAULT_PARAMETERS;
 import static dev.java4now.App.camera_btn;
 import static dev.java4now.App.modalPane;
-import static dev.java4now.util.ImageUtils.deleteFile;
 
 
 public class System_Info {
@@ -83,7 +79,8 @@ public class System_Info {
     public static double lat,lon;
     public static final StringProperty alt = new SimpleStringProperty("0.0");  // Double.toString(Double.NaN)
     static long old_time = 0;
-    public static CityService_json cityService;
+    public static CityService cityService;
+    public static CityService_json cityService_json;
     private static double previous_alt = 0.0;
     private static Double alt_tmp = null;
     private static double gain_up = 0.0;
@@ -346,7 +343,13 @@ public class System_Info {
                             count=1;
                         }
                     }else{
-                        cityService.findByLatLong(lat, lon);
+                        if(cityService_json == null){
+                            if(cityService.isLoaded()){
+                                cityService.findByLatLong(lat,lon);
+                            }
+                        }else{
+                            cityService_json.findByLatLong(lat, lon);
+                        }
                     }
                 } catch (URISyntaxException | IOException | JsonException e) {
                     throw new RuntimeException(e);
@@ -758,6 +761,26 @@ public class System_Info {
         });
     }
 
+
+    //--------------------------------------------------
+    public static boolean get_search_local() {
+        AtomicReference<Boolean> value = new AtomicReference<>();
+        SettingsService.create().ifPresent(service -> {
+//            value.set(service.retrieve("Local").equals("true"));  // important null ako key ne postoji
+            value.set("true".equals(service.retrieve("Local")));     // important - resenje ili
+//            value.set(Objects.equals(service.retrieve("Global"), "true"));
+        });
+        return value.get();
+    }
+
+
+    //----------------------------------------------------
+    public static void set_search_local(boolean local_search) {
+        SettingsService.create().ifPresent(service -> {
+            service.store("Local", local_search ? "true" : "false");
+//            service.remove("key");
+        });
+    }
 
     //-----------------------------------------------------
     public static String heading_direction_description(int head_direction) {

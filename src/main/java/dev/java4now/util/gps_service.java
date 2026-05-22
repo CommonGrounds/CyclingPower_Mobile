@@ -4,11 +4,9 @@ import com.github.cliftonlabs.json_simple.JsonException;
 import com.github.cliftonlabs.json_simple.JsonObject;
 import com.github.cliftonlabs.json_simple.Jsoner;
 import dev.java4now.System_Info;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 
 import static dev.java4now.System_Info.*;
 
@@ -51,7 +49,13 @@ public class gps_service {
             System.err.println("HTTP ERROR: " + status);
             System.err.println("SERVER REASON: " + errorMsg);
 
-            cityService.findByLatLong(lat, lon);    // zbog eventualne poruke 403 na nominatim serveru radim lokalni search
+            if(cityService_json == null){
+                if(cityService.isLoaded()){
+                    cityService.findByLatLong(lat,lon);
+                }
+            }else{
+                cityService_json.findByLatLong(lat, lon);    // zbog eventualne poruke 403 na nominatim serveru radim lokalni search
+            }
 
             // Ako je 403, baci precizniji info
             if (status == 403) {

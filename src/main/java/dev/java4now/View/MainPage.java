@@ -1,7 +1,9 @@
 package dev.java4now.View;
 
 import atlantafx.base.controls.Card;
+import atlantafx.base.controls.Tile;
 import atlantafx.base.theme.Styles;
+import atlantafx.base.theme.Tweaks;
 import com.github.cliftonlabs.json_simple.JsonException;
 import dev.java4now.System_Info;
 import dev.java4now.util.Forecast_current;
@@ -16,6 +18,8 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -26,6 +30,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import org.kordamp.ikonli.Ikon;
+import org.kordamp.ikonli.feather.Feather;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignB;
@@ -36,8 +42,7 @@ import java.net.URISyntaxException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static dev.java4now.App.bike_img;
-import static dev.java4now.App.theme;
+import static dev.java4now.App.*;
 
 public class MainPage {
 
@@ -465,7 +470,36 @@ public class MainPage {
             }
         });
         var lbl = new Label("GPS Data", gps_icon);
-        card8.setHeader(lbl);
+        var menu_icon = new FontIcon(FontAwesomeSolid.HAND_POINT_RIGHT);
+        menu_icon.setStyle(menu_icon.getStyle() + "-fx-icon-color: limegreen;");  // mora uz prethodne stilove menu_icon.getStyle() jer ih inace brise sve
+        var btn8 = new MenuButton();
+        btn8.getStyleClass().addAll(Styles.FLAT, Tweaks.NO_ARROW);    // bez strelice - mora i deo u .css-u
+        btn8.setGraphic(new FontIcon(Feather.MORE_VERTICAL));
+        var m1 = new MenuItem("Global");
+        var m2 = new MenuItem("Local");
+        m1.setOnAction(event -> {
+            System_Info.set_search_local(false);
+            m2.setGraphic(null);
+            m1.setGraphic(menu_icon);
+        });
+        m2.setOnAction(event -> {
+            System_Info.set_search_local(true);
+            m1.setGraphic(null);
+            m2.setGraphic(menu_icon);
+        });
+        btn8.getItems().setAll(m1, m2);
+        if (USE_LOCAL){
+            m2.setGraphic(menu_icon);
+        }else{
+            m1.setGraphic(menu_icon);
+        }
+        var header8 = new Tile(
+                "",
+                "",
+                lbl
+        );
+        header8.setAction(btn8);
+        card8.setHeader(header8);
         var tp_content = new VBox(City_country, suburb, road_house_number);
         tp_content.setAlignment(Pos.CENTER);
         card8.setBody(tp_content);

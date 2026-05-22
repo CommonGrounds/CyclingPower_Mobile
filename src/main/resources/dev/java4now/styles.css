@@ -128,3 +128,6 @@
  .text_lime {
      -fx-fill: #32CD32;
  }
+
+ /* mora da bi button meni bio bez strelice TWEAK.NO_ARROW */
+ .menu-button > .arrow-button { -fx-padding: 0; } .menu-button > .arrow-button > .arrow {-fx-padding: 0;}

@@ -11,8 +11,8 @@ import atlantafx.base.controls.ToggleSwitch;
 import com.github.cliftonlabs.json_simple.JsonException;
 import dev.java4now.AudioUtils.Sound;
 import dev.java4now.View.*;
+import dev.java4now.local.CityService;
 import dev.java4now.local_json.CityService_json;
-import dev.java4now.util.CadenceMeterReader;
 import dev.java4now.util.ImageUtils;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -30,7 +30,6 @@ import javafx.stage.Stage;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
-import org.kordamp.ikonli.material2.Material2MZ;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
 import org.kordamp.ikonli.material2.Material2OutlinedMZ;
 
@@ -47,7 +46,6 @@ import org.slf4j.LoggerFactory;
 
 import static dev.java4now.AudioUtils.Sound.*;
 import static dev.java4now.System_Info.*;
-import static dev.java4now.http.PingService.startPing;
 
 /*
 This application uses the Gluon Maps library, which is licensed under the GNU General Public License v3 (GPLv3).
@@ -60,6 +58,7 @@ public class App extends Application {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
 
+    public static final boolean DEBUG = false;
     public static Theme theme;
     public static Stage stage_copy;
     public static boolean KEEP_SCREEN = false;
@@ -76,26 +75,21 @@ public class App extends Application {
     public static Sound sound_sonar;
     public static Sound sound_click;
     public static Sound sound_finish;
+    public static boolean USE_LOCAL = false;
+    static InputStream stream_global = Objects.requireNonNull(App.class.getResourceAsStream("data/cities1000.txt"));
+    static InputStream city_stream = Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-city.ndjson"));
+    static InputStream town_stream = Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-town.ndjson"));
+    static InputStream village_stream = Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-village.ndjson"));
+    static InputStream hamlet_stream = Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-hamlet.ndjson"));
     static ArrayList<InputStream> streams;
 
     static {
-        InputStream city_stream = Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-city.ndjson"));
-        InputStream town_stream = Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-town.ndjson"));
-        InputStream village_stream = Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-village.ndjson"));
-        InputStream hamlet_stream = Objects.requireNonNull(App.class.getResourceAsStream("data_json/place-hamlet.ndjson"));
-        streams = new ArrayList<>();
-
         bike_img_light = new Image(Objects.requireNonNull(App.class.getResourceAsStream("bike_above.png")));
         bike_img_dark = new Image(Objects.requireNonNull(App.class.getResourceAsStream("bike_above_black.png")));
         middle_finger = new Image(Objects.requireNonNull(App.class.getResourceAsStream("Gemini_Generated.png")));
 
         bike_icon_light = new Image(Objects.requireNonNull(App.class.getResourceAsStream("bicycle_icon.png")));
         bike_icon_dark = new Image(Objects.requireNonNull(App.class.getResourceAsStream("bicycle_icon_black.png")));
-
-        streams.add(city_stream);
-        streams.add(town_stream);
-        streams.add(village_stream);
-        streams.add(hamlet_stream);
     }
 
     public void start(Stage stage) throws JsonException, URISyntaxException, IOException {
@@ -108,8 +102,36 @@ public class App extends Application {
             debugFonts();
         }
 
+        USE_LOCAL = System_Info.get_search_local();
         try {
-            System_Info.cityService = new CityService_json(streams);
+            if (USE_LOCAL) {
+                streams = new ArrayList<>();
+                streams.add(city_stream);
+                streams.add(town_stream);
+                streams.add(village_stream);
+                streams.add(hamlet_stream);
+                System_Info.cityService_json = new CityService_json(streams);
+            }else {
+                System_Info.cityService = new CityService();   // .txt
+                System_Info.cityService.loadCitiesAsync(stream_global,
+                        success -> {
+                            // Ovo se izvršava na JavaFX thread-u
+                            Platform.runLater(() -> {
+                                LOGGER.info("success reading cities");
+                                if (DEBUG){  // TODO staviti na false
+                                    find_city_for_debugging();
+                                }
+                            });
+                        },
+                        error -> {
+                            Platform.runLater(() -> {
+                                LOGGER.error("Greška pri učitavanju: " + error.getMessage());
+    //                            error.printStackTrace();
+                            });
+                        }
+                );
+
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -827,6 +849,22 @@ public class App extends Application {
         LOGGER.info("========================");
     }
 
+
+    //-------------------------------------------------
+    private void find_city_for_debugging(){
+        if(!System_Info.gps_exist.get()){
+            if(System_Info.cityService_json != null){
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        System_Info.cityService_json.findByLatLong(47.49957594973981, 19.0471661258708);  // important samo zbog debug
+                    }
+                });
+            }else{
+                System_Info.cityService.findByLatLong(47.49957594973981, 19.0471661258708);       // important samo zbog debug
+            }
+        }
+    }
 
 
     //-------------------------------------------------

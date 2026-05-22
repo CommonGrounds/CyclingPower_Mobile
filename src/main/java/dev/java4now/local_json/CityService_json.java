@@ -34,7 +34,7 @@ public class CityService_json {
     public CityService_json(ArrayList<InputStream> streams) throws IOException {
 
         cities.clear();
-        LOGGER.info("Starting to read the JSON file for cities.");
+        LOGGER.info("JSON Loading Time: Starting to read the JSON file for cities.");
  /*
 //---------- BLOCKING NACIN --------------------
         Scanner sc = null;
