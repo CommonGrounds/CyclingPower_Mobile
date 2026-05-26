@@ -1,11 +1,13 @@
 package dev.java4now.View;
 
 import atlantafx.base.controls.Card;
+import atlantafx.base.controls.RingProgressIndicator;
 import atlantafx.base.controls.Tile;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.theme.Tweaks;
 import com.github.cliftonlabs.json_simple.JsonException;
 import dev.java4now.System_Info;
+import dev.java4now.local.CityService;
 import dev.java4now.util.Forecast_current;
 import javafx.application.Platform;
 import javafx.beans.binding.ObjectBinding;
@@ -29,6 +31,7 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.util.StringConverter;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
@@ -501,8 +504,23 @@ public class MainPage {
         header8.setAction(btn8);
         card8.setHeader(header8);
         var tp_content = new VBox(City_country, suburb, road_house_number);
-        tp_content.setAlignment(Pos.CENTER);
-        card8.setBody(tp_content);
+        tp_content.setAlignment(Pos.TOP_CENTER);
+        var reverseInd = new RingProgressIndicator(0.0, false); // reverse progress
+        reverseInd.progressProperty().bind(CityService.data_progress);
+//        System.out.println("net exist: " + System_Info.net_exist.get() + " loading done: " + CityService.loading_done.get());
+        reverseInd.visibleProperty().bind(CityService.loading_done.not().and(System_Info.net_exist.not()));
+        var tp_pane = new Pane(tp_content,reverseInd){
+            @Override
+            protected void layoutChildren() {
+                super.layoutChildren();
+                tp_content.setTranslateX(getWidth()/2 - tp_content.getLayoutBounds().getWidth()/2);
+                tp_content.setTranslateY(getHeight()/2 - tp_content.getLayoutBounds().getHeight()/2);
+                reverseInd.setMinSize(getWidth()/10, getWidth()/10);
+                reverseInd.setTranslateX(getWidth() - reverseInd.getLayoutBounds().getWidth());
+                reverseInd.setTranslateY(getHeight() - reverseInd.getLayoutBounds().getHeight());
+            }
+        };
+        card8.setBody(USE_LOCAL ? tp_content : tp_pane);
         card8.prefWidthProperty().bind(System_Info.display_width);
         card8.prefHeightProperty().bind(System_Info.center_height.divide(SIZE));
 

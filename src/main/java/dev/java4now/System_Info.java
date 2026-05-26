@@ -44,6 +44,8 @@ import javafx.util.Duration;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2OutlinedAL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,11 +58,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static dev.java4now.App.camera_btn;
-import static dev.java4now.App.modalPane;
+import static dev.java4now.App.*;
 
 
 public class System_Info {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(System_Info.class);
 
     public static class Location_int {
         public double latitude;
@@ -141,6 +144,7 @@ public class System_Info {
     public static final IntegerProperty r_weight = new SimpleIntegerProperty(60);
     public static final StringProperty user_name = new SimpleStringProperty(null);
     public static VBox progress_d;
+    private static boolean city_setup = false;
 
     private static final ArrayList<Double> power_avg_list = new ArrayList<>();
 
@@ -343,12 +347,16 @@ public class System_Info {
                             count=1;
                         }
                     }else{
-                        if(cityService_json == null){
-                            if(cityService.isLoaded()){
-                                cityService.findByLatLong(lat,lon);
-                            }
+                        if(!city_setup){
+                            load_city_offline();
                         }else{
-                            cityService_json.findByLatLong(lat, lon);
+                            if(cityService_json == null){
+                                if(cityService.isLoaded()){
+                                    cityService.findByLatLong(lat,lon);
+                                }
+                            }else{
+                                cityService_json.findByLatLong(lat, lon);
+                            }
                         }
                     }
                 } catch (URISyntaxException | IOException | JsonException e) {
@@ -781,6 +789,64 @@ public class System_Info {
 //            service.remove("key");
         });
     }
+
+
+
+    private static void load_city_offline(){
+        try {
+            if (USE_LOCAL) {
+                streams = new ArrayList<>();
+                streams.add(city_stream);
+                streams.add(town_stream);
+                streams.add(village_stream);
+                streams.add(hamlet_stream);
+                System_Info.cityService_json = new CityService_json(streams);
+            }else {
+                System_Info.cityService = new CityService();   // .txt
+                System_Info.cityService.loadCitiesAsync(stream_global,
+                        success -> {
+                            // Ovo se izvršava na JavaFX thread-u
+                            Platform.runLater(() -> {
+                                LOGGER.info("success reading cities");
+                                if (DEBUG){  // TODO staviti na false
+                                    find_city_for_debugging();
+                                }
+                            });
+                        },
+                        error -> {
+                            Platform.runLater(() -> {
+                                LOGGER.error("Greška pri učitavanju: " + error.getMessage());
+                                //                            error.printStackTrace();
+                            });
+                        }
+                );
+
+            }
+            city_setup = true;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
+    //-------------------------------------------------
+    private static void find_city_for_debugging(){
+        if(!System_Info.gps_exist.get()){
+            if(System_Info.cityService_json != null){
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        System_Info.cityService_json.findByLatLong(47.49957594973981, 19.0471661258708);  // important samo zbog debug
+                    }
+                });
+            }else{
+                System_Info.cityService.findByLatLong(47.49957594973981, 19.0471661258708);       // important samo zbog debug
+            }
+        }
+    }
+
+
 
     //-----------------------------------------------------
     public static String heading_direction_description(int head_direction) {

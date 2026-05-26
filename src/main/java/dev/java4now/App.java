@@ -103,39 +103,6 @@ public class App extends Application {
         }
 
         USE_LOCAL = System_Info.get_search_local();
-        try {
-            if (USE_LOCAL) {
-                streams = new ArrayList<>();
-                streams.add(city_stream);
-                streams.add(town_stream);
-                streams.add(village_stream);
-                streams.add(hamlet_stream);
-                System_Info.cityService_json = new CityService_json(streams);
-            }else {
-                System_Info.cityService = new CityService();   // .txt
-                System_Info.cityService.loadCitiesAsync(stream_global,
-                        success -> {
-                            // Ovo se izvršava na JavaFX thread-u
-                            Platform.runLater(() -> {
-                                LOGGER.info("success reading cities");
-                                if (DEBUG){  // TODO staviti na false
-                                    find_city_for_debugging();
-                                }
-                            });
-                        },
-                        error -> {
-                            Platform.runLater(() -> {
-                                LOGGER.error("Greška pri učitavanju: " + error.getMessage());
-    //                            error.printStackTrace();
-                            });
-                        }
-                );
-
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         System_Info.retrieve_all_settings();
         if (Boolean.parseBoolean(System_Info.retrieve_theme_settings())) {
             theme = new CupertinoLight();
@@ -230,7 +197,7 @@ public class App extends Application {
             }
         }; // notification create and add to root stack pane
 
-        Scene scene = new Scene(stackPane, System_Info.dimension.getWidth(), System_Info.dimension.getHeight());
+        Scene scene = new Scene(stackPane, System_Info.dimension.getWidth(), System_Info.dimension.getHeight()); // 850 height for debug
         scene.getStylesheets().add(theme.getUserAgentStylesheet());
         scene.getStylesheets().add(App.class.getResource("styles.css").toExternalForm());
 
@@ -847,23 +814,6 @@ public class App extends Application {
         }
 
         LOGGER.info("========================");
-    }
-
-
-    //-------------------------------------------------
-    private void find_city_for_debugging(){
-        if(!System_Info.gps_exist.get()){
-            if(System_Info.cityService_json != null){
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        System_Info.cityService_json.findByLatLong(47.49957594973981, 19.0471661258708);  // important samo zbog debug
-                    }
-                });
-            }else{
-                System_Info.cityService.findByLatLong(47.49957594973981, 19.0471661258708);       // important samo zbog debug
-            }
-        }
     }
 
 

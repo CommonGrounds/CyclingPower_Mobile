@@ -2,12 +2,15 @@ package dev.java4now.local;
 
 import dev.java4now.System_Info;
 import dev.java4now.util.HaversineUtils;
+import javafx.application.Platform;
+import javafx.beans.property.*;
 import javafx.concurrent.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
 public class CityService {
@@ -18,6 +21,8 @@ public class CityService {
     private Map<String, List<City>> cities = new HashMap<>();
     private volatile boolean isLoading = false;
     private volatile boolean isLoaded = false;
+    static public final DoubleProperty data_progress = new SimpleDoubleProperty(0.0);
+    public static final BooleanProperty loading_done = new SimpleBooleanProperty(false);
 
     public CityService() {
         // Prazan konstruktor
@@ -39,6 +44,7 @@ public class CityService {
 
         loadTask.setOnSucceeded(event -> {
             isLoaded = true;
+            loading_done.set(true);
             if (onComplete != null) {
                 onComplete.accept(loadTask.getValue());
             }
@@ -55,11 +61,22 @@ public class CityService {
 
     // Sinhrona metoda za učitavanje (koristi se interno)
     private boolean loadCitiesSync(InputStream stream) {
+        /*
+        List<String> lines = new BufferedReader(new InputStreamReader(stream))
+                .lines()
+                .toList();
+
+        long total = lines.size(); // sada znam total ali onda radimo for ( String line : lines )
+         */
+        long total = 144836;       // total ako znam unapred
+
         isLoading = true;
         cities.clear();
         LOGGER.info("Load Time: Starting to read the text file for cities.");
 
         long start = System.currentTimeMillis();
+        long lastUpdate = 0;
+        int counter = 0;
 
         try (Scanner sc = new Scanner(stream)) {
             while (sc.hasNextLine()) {
@@ -77,7 +94,19 @@ public class CityService {
                 city.setLongitude(Double.valueOf(str[5]));
                 city.setCountrycode(str[8]);
                 addtoMap(city);
+
+                counter++;
                 LOGGER.debug("City read from the file " + city.toString());
+                // Ažuriraj progress na svakih ~1% (1448 redova)
+                if (counter - lastUpdate >= 1448) {
+                    lastUpdate = counter;
+                    final double progress = (double) counter / total;
+                    // Ovo se izvršava na JavaFX thread-u, ali samo ~100 puta umesto 144.836
+                    javafx.application.Platform.runLater(() -> {
+                        data_progress.set(progress);
+                    });
+                }
+//                if(counter % 10 == 0 ) LOGGER.info("out"); // usporenje radi debug-a
             }
         } catch (Exception e) {
             LOGGER.error("Greška pri učitavanju fajla", e);
