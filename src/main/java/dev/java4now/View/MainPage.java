@@ -515,7 +515,7 @@ public class MainPage {
                 super.layoutChildren();
                 tp_content.setTranslateX(getWidth()/2 - tp_content.getLayoutBounds().getWidth()/2);
                 tp_content.setTranslateY(getHeight()/2 - tp_content.getLayoutBounds().getHeight()/2);
-                reverseInd.setMinSize(getWidth()/10, getWidth()/10);
+                reverseInd.setMinSize(getWidth()/8, getWidth()/8);
                 reverseInd.setTranslateX(getWidth() - reverseInd.getLayoutBounds().getWidth());
                 reverseInd.setTranslateY(getHeight() - reverseInd.getLayoutBounds().getHeight());
             }

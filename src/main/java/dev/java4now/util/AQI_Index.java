@@ -26,7 +26,8 @@ public class AQI_Index {
     public int color_index_aqi,color_index_pm10,color_index_pm2_5,color_index_carbon_monoxide,color_index_nitrogen_dioxide,color_index_sulphur_dioxide;
 
     public static String[] color_definition = {"#50F0E6","#50CCAA","#F0E641","#FF5050","#960032","#7D2181"};
-    public static String[] uv_color_definition = {"#00FF00","yellow","orange","red","#9400D3"};
+    // Standardizovani HEX kodovi za zvanične UV boje (Zelena, Žuta, Narandžasta, Crvena, Ljubičasta)
+    public static String[] uv_color_definition = {"#4EB400", "#F7E400", "#F85900", "#D80011", "#6B49C8"};
 
     public static final StringProperty european_aqi_text = new SimpleStringProperty("---");
     public static final StringProperty pm10_text = new SimpleStringProperty("0.0 km/h");
@@ -211,18 +212,18 @@ public class AQI_Index {
     }
 
 
-
+//----------------------------------------------------
     public static int get_uv_color(double uv){
-        if(uv < 3) {
-            return 0;
-        }else if(uv < 6) {
-            return 1;
-        }else if(uv < 8) {
-            return 2;
-        }else if(uv < 11) {
-            return 3;
-        }else {
-            return 4;
+        if (uv < 3.0) {
+            return 0; // Nizak (0 - 2.99)
+        } else if (uv < 6.0) {
+            return 1; // Umeren (3.0 - 5.99)
+        } else if (uv < 8.0) {
+            return 2; // Visok (6.0 - 7.99)
+        } else if (uv < 11.0) {
+            return 3; // Vrlo visok (8.0 - 10.99)
+        } else {
+            return 4; // Ekstremni (11.0+)
         }
     }
 
